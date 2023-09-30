@@ -8,6 +8,7 @@ public class MovingObjectsSpawner: MonoBehaviour {
     public float streetWidth = 4;
     public int maxNumberOfItems = 4;
     public float speed = 5;
+    public float slowmoSpeed = 1;
     public float minSpawnTime = 2;
     public float maxSpawnTime = 2;
     public GameObject[] itemsToSpawn;
