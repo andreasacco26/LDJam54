@@ -11,9 +11,10 @@ public class MovingObjectsSpawner: MonoBehaviour {
     public float minSpawnTime = 2;
     public float maxSpawnTime = 2;
     public GameObject[] itemsToSpawn;
+    [HideInInspector]
+    public float initialSpeed = 5;
 
     private float currentSpawnTime = 2;
-    private float initialSpeed = 5;
     private readonly List<Transform> itemsToMove = new();
 
     void Start() {
