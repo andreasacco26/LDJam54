@@ -25,7 +25,8 @@ public class StaticObjectsSpawner: MonoBehaviour {
     }
 
     void Update() {
-        if (itemsToMove.Last().position.z + lastExtents.x * 2 < transform.position.z) {
+        if (itemsToMove.Last() == null ||
+            itemsToMove.Last().position.z + lastExtents.x < transform.position.z) {
             Spawn();
         }
         MoveItems();
@@ -33,16 +34,18 @@ public class StaticObjectsSpawner: MonoBehaviour {
     }
 
     private void Spawn() {
+        var time = System.DateTime.Now;
         var item = itemsToSpawn[Random.Range(0, itemsToSpawn.Length - 1)];
         var instantiatedItem = Instantiate(item, transform.position, Quaternion.identity);
         instantiatedItem.layer = layer;
         var boxCollider = instantiatedItem.AddComponent<BoxCollider>();
         boxCollider.size = Vector3.one;
-        var extents = instantiatedItem.GetComponent<MeshFilter>().sharedMesh.bounds.extents;
-        extents.x += isLeft ? -offset : offset;
-        boxCollider.center = new(extents.x, 0, 0);
+        var extents = instantiatedItem.GetComponent<Renderer>().bounds.extents;
+        extents.x += offset;
+        boxCollider.center = new(extents.x * (isLeft ? -1.1f : 1.1f), 0, 0);
         var position = transform.position;
-        position.x += extents.x;
+        position.x += extents.x * (isLeft ? -1 : 1);
+        position.z += extents.z;
         instantiatedItem.transform.position = position;
         instantiatedItem.transform.localEulerAngles = objectsRotation;
         itemsToMove.Add(instantiatedItem.transform);

@@ -18,9 +18,18 @@ public class LevelMaker: MonoBehaviour {
     public Vector3 playerPosition;
     public GameObject player;
 
+    public Vector3 leftBuilingsSpawnerPosition;
+    public GameObject leftBuilingsSpawner;
+    private StaticObjectsSpawner _leftBuildingsSpawner;
+
+    public Vector3 rightBuilingsSpawnerPosition;
+    public GameObject rightBuilingsSpawner;
+    private StaticObjectsSpawner _rightBuildingsSpawner;
+
     void Start() {
         shared = this;
         BuildMovingObjectsSpawner();
+        BuildBuildingsSpawners();
         BuildObjectsDestroyer();
         BuildPlayer();
     }
@@ -39,11 +48,24 @@ public class LevelMaker: MonoBehaviour {
         playerObject.GetComponent<PlayerController>().numberOfLanes = spawner.numberOfLanes;
     }
 
+    void BuildBuildingsSpawners() {
+        var left = Instantiate(leftBuilingsSpawner, leftBuilingsSpawnerPosition, Quaternion.identity);
+        _leftBuildingsSpawner = left.GetComponent<StaticObjectsSpawner>();
+        var right = Instantiate(rightBuilingsSpawner, rightBuilingsSpawnerPosition, Quaternion.identity);
+        _rightBuildingsSpawner = right.GetComponent<StaticObjectsSpawner>();
+    }
+
     public void StartSlowmo() {
         this.DOComplete();
         DOTween.To(() => spawner.speed,
             x => spawner.speed = x,
             spawner.slowmoSpeed, slowmoAnimationTime);
+        DOTween.To(() => _leftBuildingsSpawner.speed,
+            x => _leftBuildingsSpawner.speed = x,
+            _leftBuildingsSpawner.slowmoSpeed, slowmoAnimationTime);
+        DOTween.To(() => _rightBuildingsSpawner.speed,
+            x => _rightBuildingsSpawner.speed = x,
+            _rightBuildingsSpawner.slowmoSpeed, slowmoAnimationTime);
     }
 
     public void StopSlowmo() {
@@ -51,6 +73,12 @@ public class LevelMaker: MonoBehaviour {
         DOTween.To(() => spawner.speed,
                     x => spawner.speed = x,
                     spawner.initialSpeed, stopSlowmoAnimationTime);
+        DOTween.To(() => _leftBuildingsSpawner.speed,
+                    x => _leftBuildingsSpawner.speed = x,
+                    _leftBuildingsSpawner.initialSpeed, stopSlowmoAnimationTime);
+        DOTween.To(() => _rightBuildingsSpawner.speed,
+                    x => _rightBuildingsSpawner.speed = x,
+                    _rightBuildingsSpawner.initialSpeed, stopSlowmoAnimationTime);
     }
 
     public bool IsInSlowmo() {
