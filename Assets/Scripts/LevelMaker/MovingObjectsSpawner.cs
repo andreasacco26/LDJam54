@@ -9,21 +9,23 @@ public class MovingObjectsSpawner: MonoBehaviour {
     public int maxNumberOfItems = 4;
     public float speed = 5;
     public float minSpawnTime = 2;
-    public float maxSpawnTime = 4;
+    public float maxSpawnTime = 2;
     public GameObject[] itemsToSpawn;
 
     private float currentSpawnTime = 2;
+    private float initialSpeed = 5;
     private readonly List<Transform> itemsToMove = new();
 
     void Start() {
+        initialSpeed = speed;
     }
 
     void Update() {
         MoveItems();
-        currentSpawnTime -= Time.deltaTime;
+        currentSpawnTime -= Time.deltaTime * (speed / initialSpeed);
         if (currentSpawnTime <= 0) {
             Spawn();
-            currentSpawnTime = 2;
+            currentSpawnTime = Random.Range(minSpawnTime, maxSpawnTime);
         }
     }
 
