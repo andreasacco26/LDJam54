@@ -3,6 +3,8 @@ using DG.Tweening;
 
 public class PlayerController: MonoBehaviour {
 
+    public static PlayerController shared;
+
     public float streetWidth = 4;
     public float numberOfLanes = 4;
     public float zMovement = 1;
@@ -10,11 +12,13 @@ public class PlayerController: MonoBehaviour {
     public float slowmoSpeed = 1;
 
     private float initialSpeed;
-    private Vector3 movement = Vector3.zero;
+    [HideInInspector]
+    public Vector3 movement = Vector3.zero;
     private Vector3 initialPosition;
     private const float slowmoScale = 0.2f;
 
     void Start() {
+        shared = this;
         initialPosition = transform.position;
         initialSpeed = speed;
     }
@@ -47,7 +51,7 @@ public class PlayerController: MonoBehaviour {
         }
         movement *= Time.deltaTime * speed;
         ClampMovement();
-        transform.Translate(movement);
+        transform.Translate(movement, Space.World);
     }
 
     void ClampMovement() {

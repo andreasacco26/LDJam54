@@ -8,6 +8,9 @@ public class LevelMaker: MonoBehaviour {
     public const float slowmoAnimationTime = 1.5f;
     public const float stopSlowmoAnimationTime = 0.5f;
 
+    public float worldSpeed = 5f;
+    public float worldSlowmoSpeed = 5f;
+
     public Vector3 movingObjectsSpawnerPosition;
     public GameObject movingObjectsSpawner;
     private MovingObjectsSpawner spawner;
@@ -37,6 +40,8 @@ public class LevelMaker: MonoBehaviour {
     void BuildMovingObjectsSpawner() {
         var instance = Instantiate(movingObjectsSpawner, movingObjectsSpawnerPosition, Quaternion.identity);
         spawner = instance.GetComponent<MovingObjectsSpawner>();
+        spawner.speed = worldSpeed;
+        spawner.slowmoSpeed = worldSlowmoSpeed;
     }
 
     void BuildObjectsDestroyer() {
@@ -45,14 +50,20 @@ public class LevelMaker: MonoBehaviour {
 
     void BuildPlayer() {
         var playerObject = Instantiate(player, playerPosition, Quaternion.identity);
-        playerObject.GetComponent<PlayerController>().numberOfLanes = spawner.numberOfLanes;
+        var playerController = playerObject.GetComponent<PlayerController>();
+        playerController.numberOfLanes = spawner.numberOfLanes;
+        playerController.streetWidth = spawner.streetWidth;
     }
 
     void BuildBuildingsSpawners() {
         var left = Instantiate(leftBuilingsSpawner, leftBuilingsSpawnerPosition, Quaternion.identity);
         _leftBuildingsSpawner = left.GetComponent<StaticObjectsSpawner>();
+        _leftBuildingsSpawner.speed = worldSpeed;
+        _leftBuildingsSpawner.slowmoSpeed = worldSlowmoSpeed;
         var right = Instantiate(rightBuilingsSpawner, rightBuilingsSpawnerPosition, Quaternion.identity);
         _rightBuildingsSpawner = right.GetComponent<StaticObjectsSpawner>();
+        _rightBuildingsSpawner.speed = worldSpeed;
+        _rightBuildingsSpawner.slowmoSpeed = worldSlowmoSpeed;
     }
 
     public void StartSlowmo() {
