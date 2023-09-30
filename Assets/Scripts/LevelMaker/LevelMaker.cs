@@ -35,7 +35,8 @@ public class LevelMaker: MonoBehaviour {
     }
 
     void BuildPlayer() {
-        Instantiate(player, playerPosition, Quaternion.identity);
+        var playerObject = Instantiate(player, playerPosition, Quaternion.identity);
+        playerObject.GetComponent<PlayerController>().numberOfLanes = spawner.numberOfLanes;
     }
 
     public void StartSlowmo() {

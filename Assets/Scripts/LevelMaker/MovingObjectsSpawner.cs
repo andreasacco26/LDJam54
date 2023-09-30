@@ -6,7 +6,7 @@ using UnityEngine;
 public class MovingObjectsSpawner: MonoBehaviour {
 
     public float streetWidth = 4;
-    public int maxNumberOfItems = 4;
+    public int numberOfLanes = 4;
     public float speed = 5;
     public float slowmoSpeed = 1;
     public float minSpawnTime = 2;
@@ -32,8 +32,8 @@ public class MovingObjectsSpawner: MonoBehaviour {
     }
 
     private void Spawn() {
-        var numberOfItemsToRemove = Random.Range(0, maxNumberOfItems);
-        var availablePositions = Enumerable.Range(0, maxNumberOfItems).ToList();
+        var numberOfItemsToRemove = Random.Range(0, numberOfLanes);
+        var availablePositions = Enumerable.Range(0, numberOfLanes).ToList();
 
         while (numberOfItemsToRemove > 0) {
             var toRemove = Random.Range(0, availablePositions.Count - 1);
@@ -51,8 +51,8 @@ public class MovingObjectsSpawner: MonoBehaviour {
 
     private Vector3 positionFromIndex(int index) {
         var position = transform.position;
-        position.x = (streetWidth / maxNumberOfItems * index) - (position.x + streetWidth * 0.5f);
-        position.x += streetWidth / maxNumberOfItems * 0.5f;
+        position.x = (streetWidth / numberOfLanes * index) - (position.x + streetWidth * 0.5f);
+        position.x += streetWidth / numberOfLanes * 0.5f;
         return position;
     }
 

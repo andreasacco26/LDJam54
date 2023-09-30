@@ -12,6 +12,7 @@ public class PlayerController: MonoBehaviour {
     private float initialSpeed;
     private Vector3 movement = Vector3.zero;
     private Vector3 initialPosition;
+    private const float slowmoScale = 0.2f;
 
     void Start() {
         initialPosition = transform.position;
@@ -65,7 +66,7 @@ public class PlayerController: MonoBehaviour {
 
     void StartSlowmo() {
         var duration = LevelMaker.stopSlowmoAnimationTime;
-        transform.DOScaleX(0.2f, duration);
+        transform.DOScaleX(slowmoScale, duration);
         DOTween.To(() => speed, x => speed = x, slowmoSpeed, duration);
     }
 
