@@ -51,5 +51,12 @@ MonoBehaviour:
   minSpawnTime: 2
   maxSpawnTime: 4
   itemsToSpawn:
-  - {fileID: 8709516934281325393, guid: 51d79e9139f6a415c984e4ff82078733, type: 3}
+  - {fileID: 100000, guid: c98da428142c39c42bb62c454958cd1f, type: 3}
+  - {fileID: 100000, guid: cffe1734bc43bcb47b6433ebca05c04c, type: 3}
+  - {fileID: 100000, guid: ce2dd4bb67fdc684dac928dc2cfb7a0f, type: 3}
+  - {fileID: 100000, guid: a119eb0fa059db34bbaef286c1af1696, type: 3}
+  - {fileID: 100000, guid: d20839e362efa3d4baa3d2ce1b4f2df4, type: 3}
+  - {fileID: 100000, guid: 05aec82adc02f16409639716322b1673, type: 3}
+  - {fileID: 100000, guid: a119eb0fa059db34bbaef286c1af1696, type: 3}
+  - {fileID: 100000, guid: 79ef5961b86276943ab5da38ae9f2e4b, type: 3}
   initialSpeed: 5

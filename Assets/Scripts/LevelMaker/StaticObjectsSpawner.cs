@@ -34,7 +34,6 @@ public class StaticObjectsSpawner: MonoBehaviour {
     }
 
     private void Spawn() {
-        var time = System.DateTime.Now;
         var item = itemsToSpawn[Random.Range(0, itemsToSpawn.Length - 1)];
         var instantiatedItem = Instantiate(item, transform.position, Quaternion.identity);
         instantiatedItem.layer = layer;

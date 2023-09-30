@@ -16,9 +16,11 @@ public class MovingObjectsSpawner: MonoBehaviour {
     public float initialSpeed = 5;
 
     private float currentSpawnTime = 2;
-    private readonly List<Transform> itemsToMove = new();
+    private readonly List<VehicleMover> itemsToMove = new();
+    private int layer;
 
     void Start() {
+        layer = LayerMask.NameToLayer("Obstacle");
         initialSpeed = speed;
     }
 
@@ -45,7 +47,10 @@ public class MovingObjectsSpawner: MonoBehaviour {
             var itemPosition = positionFromIndex(position);
             var item = itemsToSpawn[Random.Range(0, itemsToSpawn.Length - 1)];
             var instantiatedItem = Instantiate(item, itemPosition, Quaternion.identity);
-            itemsToMove.Add(instantiatedItem.transform);
+            instantiatedItem.layer = layer;
+            instantiatedItem.AddComponent<BoxCollider>();
+            var mover = instantiatedItem.AddComponent<VehicleMover>();
+            itemsToMove.Add(mover);
         }
     }
 
@@ -57,9 +62,9 @@ public class MovingObjectsSpawner: MonoBehaviour {
     }
 
     private void MoveItems() {
-        foreach (Transform t in itemsToMove) {
+        foreach (VehicleMover t in itemsToMove) {
             if (t == null) continue;
-            t.Translate(0, 0, -speed * Time.deltaTime);
+            t.transform.Translate(0, 0, (-speed + t.speed) * Time.deltaTime);
         }
         CleanItemsToMove();
     }
