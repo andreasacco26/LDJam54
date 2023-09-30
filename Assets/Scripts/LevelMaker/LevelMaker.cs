@@ -1,10 +1,12 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
+using DG.Tweening;
 
 public class LevelMaker: MonoBehaviour {
 
     public static LevelMaker shared;
+
+    public const float slowmoAnimationTime = 1.5f;
+    public const float stopSlowmoAnimationTime = 0.5f;
 
     public Vector3 movingObjectsSpawnerPosition;
     public GameObject movingObjectsSpawner;
@@ -13,10 +15,14 @@ public class LevelMaker: MonoBehaviour {
     public Vector3 objectsDestroyerPosition;
     public GameObject objectsDestroyer;
 
+    public Vector3 playerPosition;
+    public GameObject player;
+
     void Start() {
         shared = this;
         BuildMovingObjectsSpawner();
         BuildObjectsDestroyer();
+        BuildPlayer();
     }
 
     void BuildMovingObjectsSpawner() {
@@ -28,12 +34,22 @@ public class LevelMaker: MonoBehaviour {
         Instantiate(objectsDestroyer, objectsDestroyerPosition, Quaternion.identity);
     }
 
+    void BuildPlayer() {
+        Instantiate(player, playerPosition, Quaternion.identity);
+    }
+
     public void StartSlowmo() {
-        spawner.speed = 1;
+        this.DOComplete();
+        DOTween.To(() => spawner.speed,
+            x => spawner.speed = x,
+            spawner.slowmoSpeed, slowmoAnimationTime);
     }
 
     public void StopSlowmo() {
-        spawner.speed = spawner.initialSpeed;
+        this.DOComplete();
+        DOTween.To(() => spawner.speed,
+                    x => spawner.speed = x,
+                    spawner.initialSpeed, stopSlowmoAnimationTime);
     }
 
     public bool IsInSlowmo() {

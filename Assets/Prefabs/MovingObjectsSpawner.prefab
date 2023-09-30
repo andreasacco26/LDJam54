@@ -30,7 +30,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 4
+  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &5089097869527576453
 MonoBehaviour:
@@ -46,8 +46,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   streetWidth: 5.8
   maxNumberOfItems: 4
-  speed: 3
-  minSpawnTime: 3
-  maxSpawnTime: 3
+  speed: 4
+  slowmoSpeed: 0.9
+  minSpawnTime: 2
+  maxSpawnTime: 4
   itemsToSpawn:
   - {fileID: 8709516934281325393, guid: 51d79e9139f6a415c984e4ff82078733, type: 3}
+  initialSpeed: 5

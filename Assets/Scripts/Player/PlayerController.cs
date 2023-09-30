@@ -1,10 +1,8 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
+using DG.Tweening;
 
 public class PlayerController: MonoBehaviour {
 
-    public Vector3 centerPosition;
     public float streetWidth = 4;
     public float numberOfLanes = 4;
     public float zMovement = 1;
@@ -12,11 +10,11 @@ public class PlayerController: MonoBehaviour {
     public float slowmoSpeed = 1;
 
     private float initialSpeed;
-
     private Vector3 movement = Vector3.zero;
+    private Vector3 initialPosition;
 
     void Start() {
-        transform.position = centerPosition;
+        initialPosition = transform.position;
         initialSpeed = speed;
     }
 
@@ -59,23 +57,21 @@ public class PlayerController: MonoBehaviour {
             position.x > xLimit - xOffset) {
             movement.x = 0;
         }
-        if (position.z < centerPosition.z - zMovement ||
-            position.z > centerPosition.z + zMovement) {
+        if (position.z < initialPosition.z - zMovement ||
+            position.z > initialPosition.z + zMovement) {
             movement.z = 0;
         }
     }
 
     void StartSlowmo() {
-        var scale = transform.localScale;
-        scale.x = 0.2f;
-        transform.localScale = scale;
-        speed = slowmoSpeed;
+        var duration = LevelMaker.stopSlowmoAnimationTime;
+        transform.DOScaleX(0.2f, duration);
+        DOTween.To(() => speed, x => speed = x, slowmoSpeed, duration);
     }
 
     void StopSlowmo() {
-        var scale = transform.localScale;
-        scale.x = 1f;
-        transform.localScale = scale;
-        speed = initialSpeed;
+        var duration = LevelMaker.stopSlowmoAnimationTime;
+        transform.DOScaleX(1f, duration);
+        DOTween.To(() => speed, x => speed = x, initialSpeed, duration);
     }
 }
