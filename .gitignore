@@ -59,3 +59,6 @@ sysinfo.txt
 crashlytics-build.properties
 
 .DS_Store
+
+# Ignore user settings
+[Uu]ser[Ss]ettings/
