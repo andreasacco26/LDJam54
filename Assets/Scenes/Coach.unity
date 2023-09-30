@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 521.29816, g: 752.25775, b: 1357.5411, a: 1}
+  m_IndirectSpecularColor: {r: 523.0252, g: 753.94525, b: 1358.7335, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -504,6 +504,23 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f5ed85f3d5cd9b54aaab6c5b0bb9b344, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  musicSounds:
+  - name: MainTheme
+    clip: {fileID: 8300000, guid: e96fbc569e8fac744bf375018eb5dc89, type: 3}
+  ambienceSounds:
+  - name: CarEngine
+    clip: {fileID: 8300000, guid: ac4d5b218d3c1ff449f38a72eae1b066, type: 3}
+  sfxSounds:
+  - name: CarBrakes
+    clip: {fileID: 8300000, guid: b7ee6343d377aac42b78546ce5acf97d, type: 3}
+  - name: Bump
+    clip: {fileID: 8300000, guid: a80e5bc51430e7748b3d7b26b75e8d0f, type: 3}
+  - name: Explosion
+    clip: {fileID: 8300000, guid: 9b077b9add605af488a52690c15c6438, type: 3}
+  - name: Grinding
+    clip: {fileID: 8300000, guid: 4d524ef70fdf8fb40bc70e12769ccf5e, type: 3}
+  - name: Whoosh
+    clip: {fileID: 8300000, guid: 5ec9f33a6ce284a409657fd7c4dc701b, type: 3}
   musicSource: {fileID: 102122107}
   ambienceSource: {fileID: 102122106}
   sfxSource: {fileID: 102122105}
@@ -570,6 +587,53 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 4
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &414292652
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 414292654}
+  - component: {fileID: 414292653}
+  m_Layer: 0
+  m_Name: AudioTester
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &414292653
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 414292652}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1057bd844f158b946a0b75810f4695ce, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  sfxNames: []
+  musicNames: []
+  ambienceNames: []
+--- !u!4 &414292654
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 414292652}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 7.334734, y: 0.81874275, z: 2.0889492}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 9
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &722373286
 GameObject:
@@ -1214,7 +1278,7 @@ PrefabInstance:
     - target: {fileID: 1736101408967284586, guid: 093701ca180fd85478b62d309bb8638d,
         type: 3}
       propertyPath: m_LocalPosition.x
-      value: 3.16
+      value: 3.28
       objectReference: {fileID: 0}
     - target: {fileID: 1736101408967284586, guid: 093701ca180fd85478b62d309bb8638d,
         type: 3}

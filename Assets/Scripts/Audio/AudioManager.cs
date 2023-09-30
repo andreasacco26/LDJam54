@@ -3,7 +3,8 @@ using UnityEngine;
 
 public class AudioManager : MonoBehaviour
 {
-    public Dictionary<string, Sound> musicSounds, ambienceSounds, sfxSounds;
+    public List<Sound> musicSounds, ambienceSounds, sfxSounds;
+
     public AudioSource musicSource, ambienceSource, sfxSource;
 
     public static AudioManager Instance { get; private set; }
@@ -12,28 +13,31 @@ public class AudioManager : MonoBehaviour
         if (Instance != null && Instance != this) {
             Destroy(this);
         } else {
-            Debug.Log("UnitManager Singleton created");
+            Debug.Log("AudioManager Singleton created");
             Instance = this;
         }
     }
 
-    private void Play(Dictionary<string, Sound> sounds, AudioSource source, string clipName) {
-        if (!sounds.ContainsKey(clipName)) {
+    private void Play(List<Sound> sounds, AudioSource source, string clipName, bool loop) {
+        Sound sound = sounds.Find((x) => x.name == clipName);
+        if (sound == null) {
             Debug.Log("Cannot reproduce sound: " + clipName + " not found!");
             return;
         }
-        source.clip = sounds[clipName].clip;
+        source.clip = sound.clip;
+        source.loop = loop;
         source.Play();
     }
 
-    public void PlayMusic(string musicName) => Play(musicSounds, musicSource, musicName);
-    public void PlayAmbience(string ambienceName) => Play(ambienceSounds, ambienceSource, ambienceName);
+    public void PlayMusic(string musicName) => Play(musicSounds, musicSource, musicName, true);
+    public void PlayAmbience(string ambienceName) => Play(ambienceSounds, ambienceSource, ambienceName, true);
     public void PlaySfx(string sfxName) {
-        if (!sfxSounds.ContainsKey(sfxName)) {
+        Sound sound = sfxSounds.Find((x) => x.name == sfxName);
+        if (sfxName == null) {
             Debug.Log("Cannot reproduce sound: " + sfxName + " not found!");
             return;
         }
-        sfxSource.PlayOneShot(sfxSounds[sfxName].clip);
+        sfxSource.PlayOneShot(sound.clip);
     }
 
     private void ToggleSource(AudioSource source) => source.mute = !source.mute;
