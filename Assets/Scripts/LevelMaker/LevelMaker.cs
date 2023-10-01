@@ -58,7 +58,6 @@ public class LevelMaker: MonoBehaviour {
 
     private void Update() {
         MoveItems();
-        Debug.Log("Timer:" + currentSlowmoTimer + " InSlowmo:" + IsInSlowmo());
     }
 
     private void FixedUpdate() {
@@ -126,7 +125,10 @@ public class LevelMaker: MonoBehaviour {
         var timer = slowmoTimer * (currentSlowmoTimer / slowmoTimer);
         slowmoTimerAnimation = DOTween.To(() => currentSlowmoTimer,
             x => currentSlowmoTimer = x,
-            0, timer).OnComplete(() => StopSlowmo());
+            0, timer)
+            .SetEase(Ease.Linear)
+            .OnComplete(() => StopSlowmo())
+            .OnUpdate(() => PlayerController.shared.SetSlowmoProgress(currentSlowmoTimer / slowmoTimer)); ;
         PlayerController.shared.StartSlowmo();
     }
 
@@ -153,7 +155,9 @@ public class LevelMaker: MonoBehaviour {
         var timer = cooldownSlowmoTimer * (1 - (currentSlowmoTimer / slowmoTimer));
         slowmoCooldownTimerAnimation = DOTween.To(() => currentSlowmoTimer,
             x => currentSlowmoTimer = x,
-            slowmoTimer, timer);
+            slowmoTimer, timer)
+            .SetEase(Ease.Linear)
+            .OnUpdate(() => PlayerController.shared.SetSlowmoProgress(currentSlowmoTimer / slowmoTimer));
         PlayerController.shared.StopSlowmo();
     }
 
