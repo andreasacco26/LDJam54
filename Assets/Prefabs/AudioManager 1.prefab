@@ -50,6 +50,8 @@ MonoBehaviour:
   musicSounds:
   - name: MainTheme
     clip: {fileID: 8300000, guid: e96fbc569e8fac744bf375018eb5dc89, type: 3}
+  - name: MoonlightBeach
+    clip: {fileID: 8300000, guid: 5f0f7a5b80fc20e42b8c280df86be1a7, type: 3}
   ambienceSounds:
   - name: CarEngine
     clip: {fileID: 8300000, guid: ac4d5b218d3c1ff449f38a72eae1b066, type: 3}
