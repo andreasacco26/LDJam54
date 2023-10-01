@@ -13,6 +13,7 @@ public class PlayerController: MonoBehaviour {
     public float slowmoSpeed = 1;
     public Image slowmoImage;
     public Transform bus;
+    public bool controlsEnabled;
 
     private float initialSpeed;
     [HideInInspector]
@@ -26,7 +27,13 @@ public class PlayerController: MonoBehaviour {
         initialSpeed = speed;
     }
 
-    void Update() {
+    private void Update() {
+        if (controlsEnabled) {
+            CheckControls();
+        }
+    }
+
+    void CheckControls() {
         if (Input.GetKey(KeyCode.LeftArrow)) {
             movement.x = -1;
         } else if (Input.GetKey(KeyCode.RightArrow)) {
@@ -89,5 +96,10 @@ public class PlayerController: MonoBehaviour {
     public void SetSlowmoProgress(float progress) {
         slowmoImage.fillAmount = progress;
         slowmoImage.enabled = progress < 0.999f;
+    }
+
+    public void OnCarCollisionEnter(Collision collision) {
+        //LevelMaker.shared.OnVehicleAccident();
+        GetComponent<KnightBusEffects>().Explode();
     }
 }

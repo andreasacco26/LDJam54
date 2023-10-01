@@ -3,8 +3,7 @@ using UnityEngine;
 using UnityEngine.Subsystems;
 using UnityEngine.VFX;
 
-public class KnightBusEffects : MonoBehaviour
-{
+public class KnightBusEffects: MonoBehaviour {
     // 1. Exahust fire bang
     [Header("Explosion Effect")]
     [Tooltip("The speed at which the parts of the car will fly off when exploding.")]
@@ -55,22 +54,17 @@ public class KnightBusEffects : MonoBehaviour
         engineSource.Play();
     }
 
-    private void Start()
-    {
+    private void Start() {
         InitExplosionData();
         InitAudioData();
     }
 
     private void Update() {
-        if (Input.GetKeyDown(KeyCode.X)) {
-            Explode();
-        }
-
         if (!engineSource.isPlaying && engineSource.isActiveAndEnabled) engineSource.Play();
         float speedDelta = Mathf.Clamp01(Mathf.Abs(PlayerController.shared.movement.z));
         engineSource.pitch = enginePitchOverSpeed.Evaluate(speedDelta);
 
-        if (Input.GetKeyDown(KeyCode.UpArrow)) {
+        if (Input.GetKeyDown(KeyCode.UpArrow) && PlayerController.shared.controlsEnabled) {
             AudioManager.Instance.PlaySfx("BangInstant");
             ParticleSystem exhaustFire = Instantiate(exhaustFireVfx, exhaust.transform);
             exhaustFire.Play();
@@ -88,9 +82,9 @@ public class KnightBusEffects : MonoBehaviour
            PlayerController.shared.transform.position,
            PlayerController.shared.transform.rotation);
         PlayerController.shared.gameObject.SetActive(false);
-        
-        container.SetActive(true);
 
+        container.SetActive(true);
+        LevelMaker.shared.AddObjectToMove(container.transform);
         foreach (Rigidbody body in knightBusRigidbodies) {
             Vector3 forceVector = Random.onUnitSphere;
             forceVector.y = Mathf.Abs(forceVector.y) * 2;
@@ -104,7 +98,7 @@ public class KnightBusEffects : MonoBehaviour
 
     public void Restore() {
         container.SetActive(false);
-        PlayerController.shared.gameObject.SetActive(true); 
+        PlayerController.shared.gameObject.SetActive(true);
         HasExploded = false;
     }
 }

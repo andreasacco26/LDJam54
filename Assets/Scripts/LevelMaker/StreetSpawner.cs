@@ -54,6 +54,7 @@ public class StreetSpawner: MonoBehaviour {
             length = sidewalkExtents.z * 2,
             material = streetMaterial
         }.GetPlane();
+        CleanObject(prototype);
         var collider = prototype.GetComponent<BoxCollider>();
         collider.size = new Vector3(collider.size.x, collider.size.y, 1);
         collider.center = new Vector3(0, 0, sidewalkExtents.z);
@@ -75,6 +76,14 @@ public class StreetSpawner: MonoBehaviour {
             stripes.transform.parent = prototype.transform;
             var xPos = streetWidth / numberOfLanes * i - (streetWidth * 0.5f);
             stripes.transform.localPosition = new(xPos, 0.01f, 0);
+        }
+    }
+
+    void CleanObject(GameObject obj) {
+        var renderer = obj.GetComponent<Renderer>();
+        if (renderer) {
+            renderer.shadowCastingMode = UnityEngine.Rendering.ShadowCastingMode.Off;
+            renderer.receiveShadows = false;
         }
     }
 }
