@@ -11,6 +11,7 @@ public class MovingObjectsSpawner: MonoBehaviour {
     public float slowmoSpeed = 1;
     public float minSpawnTime = 2;
     public float maxSpawnTime = 2;
+    public int spawnCooldownCarsWall = 2;
     public GameObject[] itemsToSpawn;
     [HideInInspector]
     public float initialSpeed = 5;
@@ -18,6 +19,12 @@ public class MovingObjectsSpawner: MonoBehaviour {
     private float currentSpawnTime = 2;
     private readonly List<VehicleMover> itemsToMove = new();
     private int layer;
+    private int currentSpawnCooldownCarsWall = 0;
+    private bool CanSpawnCarsWall {
+        get {
+            return currentSpawnCooldownCarsWall >= spawnCooldownCarsWall;
+        }
+    }
 
     void Start() {
         layer = LayerMask.NameToLayer("Obstacle");
@@ -34,7 +41,12 @@ public class MovingObjectsSpawner: MonoBehaviour {
     }
 
     private void Spawn() {
-        var numberOfItemsToRemove = Random.Range(0, numberOfLanes);
+        var minItems = CanSpawnCarsWall ? 0 : 1;
+        var numberOfItemsToRemove = Random.Range(minItems, numberOfLanes - 1);
+        if (numberOfItemsToRemove == 0) {
+            currentSpawnCooldownCarsWall = 0;
+        }
+        currentSpawnCooldownCarsWall += 1;
         var availablePositions = Enumerable.Range(0, numberOfLanes).ToList();
 
         while (numberOfItemsToRemove > 0) {

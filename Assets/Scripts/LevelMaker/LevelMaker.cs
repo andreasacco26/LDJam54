@@ -12,8 +12,14 @@ public class LevelMaker: MonoBehaviour {
     public float currentSpeed = 5f;
     public float worldSpeed = 5f;
     public float worldSlowmoSpeed = 5f;
+    public float slowmoTimer = 4f;
+    public float cooldownSlowmoTimer = 4f;
+
     public int streetWidth = 17;
     public int numberOfLanes = 4;
+
+    [HideInInspector]
+    public float currentSlowmoTimer = 0;
 
     public Vector3 movingObjectsSpawnerPosition;
     public GameObject movingObjectsSpawner;
@@ -35,6 +41,9 @@ public class LevelMaker: MonoBehaviour {
     public GameObject streetSpawner;
     private StreetSpawner _streetSpawner;
     private readonly List<Transform> itemsToMove = new();
+    private readonly List<Tweener> animators = new();
+    private Tweener slowmoTimerAnimation;
+    private Tweener slowmoCooldownTimerAnimation;
 
     void Start() {
         shared = this;
@@ -44,10 +53,12 @@ public class LevelMaker: MonoBehaviour {
         BuildBuildingsSpawners();
         BuildObjectsDestroyer();
         BuildPlayer();
+        currentSlowmoTimer = slowmoTimer;
     }
 
     private void Update() {
         MoveItems();
+        Debug.Log("Timer:" + currentSlowmoTimer + " InSlowmo:" + IsInSlowmo());
     }
 
     private void FixedUpdate() {
@@ -94,27 +105,64 @@ public class LevelMaker: MonoBehaviour {
     }
 
     public void StartSlowmo() {
-        this.DOComplete();
-        DOTween.To(() => currentSpeed,
+        if (!CanStartSlowmo()) {
+            return;
+        }
+        if (slowmoCooldownTimerAnimation != null) {
+            slowmoCooldownTimerAnimation.Kill();
+            slowmoCooldownTimerAnimation = null;
+        }
+        foreach (Tweener animator in animators) {
+            animator.Complete();
+        }
+        animators.Clear();
+        animators.Add(DOTween.To(() => currentSpeed,
             x => currentSpeed = x,
-            worldSlowmoSpeed, slowmoAnimationTime);
-        DOTween.To(() => _spawner.speed,
+            worldSlowmoSpeed, slowmoAnimationTime));
+        animators.Add(DOTween.To(() => _spawner.speed,
             x => _spawner.speed = x,
-            _spawner.slowmoSpeed, slowmoAnimationTime);
+            _spawner.slowmoSpeed, slowmoAnimationTime));
+
+        var timer = slowmoTimer * (currentSlowmoTimer / slowmoTimer);
+        slowmoTimerAnimation = DOTween.To(() => currentSlowmoTimer,
+            x => currentSlowmoTimer = x,
+            0, timer).OnComplete(() => StopSlowmo());
+        PlayerController.shared.StartSlowmo();
     }
 
     public void StopSlowmo() {
-        this.DOComplete();
-        DOTween.To(() => currentSpeed,
+        if (slowmoCooldownTimerAnimation != null) {
+            return;
+        }
+        if (slowmoTimerAnimation != null) {
+            slowmoTimerAnimation.Kill();
+            slowmoTimerAnimation = null;
+        }
+        slowmoCooldownTimerAnimation = null;
+        foreach (Tweener animator in animators) {
+            animator.Complete();
+        }
+        animators.Clear();
+        animators.Add(DOTween.To(() => currentSpeed,
             x => currentSpeed = x,
-            worldSpeed, stopSlowmoAnimationTime);
-        DOTween.To(() => _spawner.speed,
+            worldSpeed, stopSlowmoAnimationTime));
+        animators.Add(DOTween.To(() => _spawner.speed,
             x => _spawner.speed = x,
-            _spawner.initialSpeed, stopSlowmoAnimationTime);
+            _spawner.initialSpeed, stopSlowmoAnimationTime));
+
+        var timer = cooldownSlowmoTimer * (1 - (currentSlowmoTimer / slowmoTimer));
+        slowmoCooldownTimerAnimation = DOTween.To(() => currentSlowmoTimer,
+            x => currentSlowmoTimer = x,
+            slowmoTimer, timer);
+        PlayerController.shared.StopSlowmo();
+    }
+
+    public bool CanStartSlowmo() {
+        return !IsInSlowmo();
     }
 
     public bool IsInSlowmo() {
-        return _spawner.speed != _spawner.initialSpeed;
+        return slowmoTimerAnimation != null;
     }
 
     public void AddObjectToMove(Transform obj) {
