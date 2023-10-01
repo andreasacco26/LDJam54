@@ -49,5 +49,6 @@ MonoBehaviour:
   streetMaterial: {fileID: 2100000, guid: 069de147d5a40443886acbb3ce63fe3d, type: 2}
   road: {fileID: 0}
   sidewalk: {fileID: 919132149155446097, guid: 04e4be77eff7e58438af43ada17bfee0, type: 3}
-  roadStripes: {fileID: 0}
+  roadStripes: {fileID: 9214126657986951493, guid: 17d9904ab0fa1bf43a81ff32b6fd8d8b,
+    type: 3}
   destroyerZ: -35

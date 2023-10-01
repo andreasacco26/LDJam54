@@ -6,7 +6,6 @@ public class StreetSpawner: MonoBehaviour {
     public float streetWidth = 4;
     public int numberOfLanes = 4;
     public Material streetMaterial;
-    public GameObject road;
     public GameObject sidewalk;
     public GameObject roadStripes;
     public float destroyerZ = -35;
@@ -69,5 +68,13 @@ public class StreetSpawner: MonoBehaviour {
         leftSidewalk.transform.localPosition = new Vector3(-streetWidth * 0.5f, 0, 0);
         streetExtent = sidewalkExtents.z;
         prototype.transform.position = new Vector3(9999, 9999, 9999);
+
+        for (int i = 1; i < numberOfLanes; i++) {
+            var stripes = Instantiate(roadStripes);
+            stripes.name = "Lane " + i;
+            stripes.transform.parent = prototype.transform;
+            var xPos = streetWidth / numberOfLanes * i - (streetWidth * 0.5f);
+            stripes.transform.localPosition = new(xPos, 0.01f, 0);
+        }
     }
 }
