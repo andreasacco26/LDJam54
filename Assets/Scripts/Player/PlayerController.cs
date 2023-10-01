@@ -1,5 +1,6 @@
 using UnityEngine;
 using DG.Tweening;
+using UnityEngine.UI;
 
 public class PlayerController: MonoBehaviour {
 
@@ -10,6 +11,8 @@ public class PlayerController: MonoBehaviour {
     public float zMovement = 1;
     public float speed = 1;
     public float slowmoSpeed = 1;
+    public Image slowmoImage;
+    public Transform bus;
 
     private float initialSpeed;
     [HideInInspector]
@@ -70,14 +73,21 @@ public class PlayerController: MonoBehaviour {
     }
 
     public void StartSlowmo() {
+        bus.DOComplete();
         var duration = LevelMaker.stopSlowmoAnimationTime;
-        transform.DOScaleX(slowmoScale, duration);
+        bus.DOScaleX(slowmoScale, duration);
         DOTween.To(() => speed, x => speed = x, slowmoSpeed, duration);
     }
 
     public void StopSlowmo() {
+        bus.DOComplete();
         var duration = LevelMaker.stopSlowmoAnimationTime;
-        transform.DOScaleX(1f, duration);
+        bus.DOScaleX(1f, duration);
         DOTween.To(() => speed, x => speed = x, initialSpeed, duration);
+    }
+
+    public void SetSlowmoProgress(float progress) {
+        slowmoImage.fillAmount = progress;
+        slowmoImage.enabled = progress < 0.999f;
     }
 }
