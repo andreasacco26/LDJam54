@@ -10,10 +10,12 @@ public class LevelMaker: MonoBehaviour {
 
     public float worldSpeed = 5f;
     public float worldSlowmoSpeed = 5f;
+    public int streetWidth = 17;
+    public int numberOfLanes = 4;
 
     public Vector3 movingObjectsSpawnerPosition;
     public GameObject movingObjectsSpawner;
-    private MovingObjectsSpawner spawner;
+    private MovingObjectsSpawner _spawner;
 
     public Vector3 objectsDestroyerPosition;
     public GameObject objectsDestroyer;
@@ -29,8 +31,13 @@ public class LevelMaker: MonoBehaviour {
     public GameObject rightBuilingsSpawner;
     private StaticObjectsSpawner _rightBuildingsSpawner;
 
+    public Vector3 streetSpawnerPosition;
+    public GameObject streetSpawner;
+    private StreetSpawner _streetSpawner;
+
     void Start() {
         shared = this;
+        BuildStreetSpawner();
         BuildMovingObjectsSpawner();
         BuildBuildingsSpawners();
         BuildObjectsDestroyer();
@@ -39,9 +46,11 @@ public class LevelMaker: MonoBehaviour {
 
     void BuildMovingObjectsSpawner() {
         var instance = Instantiate(movingObjectsSpawner, movingObjectsSpawnerPosition, Quaternion.identity);
-        spawner = instance.GetComponent<MovingObjectsSpawner>();
-        spawner.speed = worldSpeed;
-        spawner.slowmoSpeed = worldSlowmoSpeed;
+        _spawner = instance.GetComponent<MovingObjectsSpawner>();
+        _spawner.speed = worldSpeed;
+        _spawner.slowmoSpeed = worldSlowmoSpeed;
+        _spawner.numberOfLanes = numberOfLanes;
+        _spawner.streetWidth = streetWidth;
     }
 
     void BuildObjectsDestroyer() {
@@ -51,8 +60,8 @@ public class LevelMaker: MonoBehaviour {
     void BuildPlayer() {
         var playerObject = Instantiate(player, playerPosition, Quaternion.identity);
         var playerController = playerObject.GetComponent<PlayerController>();
-        playerController.numberOfLanes = spawner.numberOfLanes;
-        playerController.streetWidth = spawner.streetWidth;
+        playerController.numberOfLanes = numberOfLanes;
+        playerController.streetWidth = streetWidth;
     }
 
     void BuildBuildingsSpawners() {
@@ -66,33 +75,48 @@ public class LevelMaker: MonoBehaviour {
         _rightBuildingsSpawner.slowmoSpeed = worldSlowmoSpeed;
     }
 
+    void BuildStreetSpawner() {
+        var instance = Instantiate(streetSpawner, streetSpawnerPosition, Quaternion.identity);
+        _streetSpawner = instance.GetComponent<StreetSpawner>();
+        _streetSpawner.speed = worldSpeed;
+        _streetSpawner.slowmoSpeed = worldSlowmoSpeed;
+        _streetSpawner.numberOfLanes = numberOfLanes;
+        _streetSpawner.streetWidth = streetWidth;
+    }
+
     public void StartSlowmo() {
         this.DOComplete();
-        DOTween.To(() => spawner.speed,
-            x => spawner.speed = x,
-            spawner.slowmoSpeed, slowmoAnimationTime);
+        DOTween.To(() => _spawner.speed,
+            x => _spawner.speed = x,
+            _spawner.slowmoSpeed, slowmoAnimationTime);
         DOTween.To(() => _leftBuildingsSpawner.speed,
             x => _leftBuildingsSpawner.speed = x,
             _leftBuildingsSpawner.slowmoSpeed, slowmoAnimationTime);
         DOTween.To(() => _rightBuildingsSpawner.speed,
             x => _rightBuildingsSpawner.speed = x,
             _rightBuildingsSpawner.slowmoSpeed, slowmoAnimationTime);
+        DOTween.To(() => _streetSpawner.speed,
+            x => _streetSpawner.speed = x,
+            _streetSpawner.slowmoSpeed, slowmoAnimationTime);
     }
 
     public void StopSlowmo() {
         this.DOComplete();
-        DOTween.To(() => spawner.speed,
-                    x => spawner.speed = x,
-                    spawner.initialSpeed, stopSlowmoAnimationTime);
+        DOTween.To(() => _spawner.speed,
+                    x => _spawner.speed = x,
+                    _spawner.initialSpeed, stopSlowmoAnimationTime);
         DOTween.To(() => _leftBuildingsSpawner.speed,
                     x => _leftBuildingsSpawner.speed = x,
                     _leftBuildingsSpawner.initialSpeed, stopSlowmoAnimationTime);
         DOTween.To(() => _rightBuildingsSpawner.speed,
                     x => _rightBuildingsSpawner.speed = x,
                     _rightBuildingsSpawner.initialSpeed, stopSlowmoAnimationTime);
+        DOTween.To(() => _streetSpawner.speed,
+                    x => _streetSpawner.speed = x,
+                    _streetSpawner.initialSpeed, stopSlowmoAnimationTime);
     }
 
     public bool IsInSlowmo() {
-        return spawner.speed != spawner.initialSpeed;
+        return _spawner.speed != _spawner.initialSpeed;
     }
 }

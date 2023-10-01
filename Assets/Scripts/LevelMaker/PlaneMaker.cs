@@ -13,7 +13,7 @@ public class PlaneMaker {
     public float width = 1.0f;
     public float length = 1.0f;
     public Orientation orientation = Orientation.Horizontal;
-
+    public Material material;
     private static Mesh planeMesh;
 
     public PlaneMaker() {
@@ -34,7 +34,7 @@ public class PlaneMaker {
 
         MeshFilter meshFilter = (MeshFilter)plane.AddComponent(typeof(MeshFilter));
         plane.AddComponent(typeof(MeshRenderer));
-
+        plane.GetComponent<MeshRenderer>().material = material;
         Mesh m = planeMesh;
         if (m == null) {
             m = new();
