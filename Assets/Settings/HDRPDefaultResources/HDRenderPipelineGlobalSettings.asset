@@ -12,6 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 781cc897cf8675041a751163b51f97dd, type: 3}
   m_Name: HDRenderPipelineGlobalSettings
   m_EditorClassIdentifier: 
+  s_DefaultVolume: {fileID: 0}
   m_DefaultVolumeProfile: {fileID: 11400000, guid: 14b392ee213d25a48b1feddbd9f5a9be,
     type: 2}
   m_LookDevVolumeProfile: {fileID: 11400000, guid: 4594f4a3fb14247e192bcca6dc23c8ed,
@@ -30,6 +31,7 @@ MonoBehaviour:
     sssQualityLevel: 0
     sssCustomSampleBudget: 20
     msaaMode: 1
+    sssResolvedSampleBudget: 0
     materialQuality: 0
   m_RenderingPathDefaultBakedOrCustomReflectionFrameSettings:
     bitDatas:
@@ -45,6 +47,7 @@ MonoBehaviour:
     sssQualityLevel: 0
     sssCustomSampleBudget: 20
     msaaMode: 1
+    sssResolvedSampleBudget: 0
     materialQuality: 0
   m_RenderingPathDefaultRealtimeReflectionFrameSettings:
     bitDatas:
@@ -60,8 +63,11 @@ MonoBehaviour:
     sssQualityLevel: 0
     sssCustomSampleBudget: 20
     msaaMode: 1
+    sssResolvedSampleBudget: 0
     materialQuality: 0
   m_RenderPipelineResources: {fileID: 11400000, guid: 3ce144cff5783da45aa5d4fdc2da14b7,
+    type: 2}
+  m_RenderPipelineEditorResources: {fileID: 1, guid: bf65aa0c6e3e70c4c8b484c4ddac473e,
     type: 2}
   m_RenderPipelineRayTracingResources: {fileID: 0}
   beforeTransparentCustomPostProcesses: []
@@ -125,7 +131,6 @@ MonoBehaviour:
           rayOriginBias: -0.001
           maxHitsPerRay: 10
           collisionMask:
-            serializedVersion: 2
             m_Bits: 4294967291
     - sceneGUID: f64280146bcda6840b83c1daa1ea35a3
       settings:
@@ -143,7 +148,6 @@ MonoBehaviour:
           rayOriginBias: -0.001
           maxHitsPerRay: 10
           collisionMask:
-            serializedVersion: 2
             m_Bits: 4294967291
     serializedBakingSets:
     - name: Default
@@ -165,12 +169,39 @@ MonoBehaviour:
           rayOriginBias: -0.001
           maxHitsPerRay: 10
           collisionMask:
-            serializedVersion: 2
+            m_Bits: 4294967291
+      profile: {fileID: 11400000, guid: b7c36f6ff1da5654ab541a69c1bcef50, type: 2}
+      lightingScenarios:
+      - Default
+    parentAsset: {fileID: 11400000}
+    parentSceneDataPropertyName: apvScenesData
+    bakingSets:
+    - name: Default
+      sceneGUIDs:
+      - fe4970006c0fe4008b38040a15cb92d8
+      - f64280146bcda6840b83c1daa1ea35a3
+      settings:
+        m_Version: 1
+        dilationSettings:
+          enableDilation: 1
+          dilationDistance: 1
+          dilationValidityThreshold: 0.25
+          dilationIterations: 1
+          squaredDistWeighting: 1
+        virtualOffsetSettings:
+          useVirtualOffset: 1
+          outOfGeoOffset: 0.01
+          searchMultiplier: 0.2
+          rayOriginBias: -0.001
+          maxHitsPerRay: 10
+          collisionMask:
             m_Bits: 4294967291
       profile: {fileID: 11400000, guid: b7c36f6ff1da5654ab541a69c1bcef50, type: 2}
       lightingScenarios:
       - Default
     m_LightingScenario: Default
+    m_OtherScenario: 
+    m_ScenarioBlendingFactor: 0
   m_Version: 5
   m_ShaderVariantLogLevel: 0
   m_ExportShaderVariants: 1
