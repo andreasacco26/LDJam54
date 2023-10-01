@@ -8,29 +8,22 @@ public class StaticObjectsSpawner: MonoBehaviour {
     public Vector3 objectsRotation;
     public bool isLeft = false;
     public float offset = 0f;
-    public float speed = 5;
-    public float slowmoSpeed = 1;
     public GameObject[] itemsToSpawn;
-    [HideInInspector]
-    public float initialSpeed = 5;
 
-    private readonly List<Transform> itemsToMove = new();
     private Vector3 lastExtents;
     private int layer;
+    private Transform lastSpawned;
 
     void Start() {
         layer = LayerMask.NameToLayer("Obstacle");
-        initialSpeed = speed;
         Spawn();
     }
 
     void Update() {
-        if (itemsToMove.Last() == null ||
-            itemsToMove.Last().position.z + lastExtents.x < transform.position.z) {
+        if (!lastSpawned ||
+            lastSpawned.position.z + lastExtents.x < transform.position.z) {
             Spawn();
         }
-        MoveItems();
-        CleanItemsToMove();
     }
 
     private void Spawn() {
@@ -47,19 +40,8 @@ public class StaticObjectsSpawner: MonoBehaviour {
         position.z += extents.z;
         instantiatedItem.transform.position = position;
         instantiatedItem.transform.localEulerAngles = objectsRotation;
-        itemsToMove.Add(instantiatedItem.transform);
+        LevelMaker.shared.AddObjectToMove(instantiatedItem.transform);
+        lastSpawned = instantiatedItem.transform;
         lastExtents = extents;
-    }
-
-    private void MoveItems() {
-        foreach (Transform t in itemsToMove) {
-            if (t == null) continue;
-            t.Translate(0, 0, -speed * Time.deltaTime, Space.World);
-        }
-        CleanItemsToMove();
-    }
-
-    private void CleanItemsToMove() {
-        itemsToMove.Remove(null);
     }
 }
