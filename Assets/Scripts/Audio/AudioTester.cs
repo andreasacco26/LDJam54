@@ -1,9 +1,6 @@
-using System;
 using System.Collections.Generic;
-using UnityEditor;
 using UnityEngine;
 
-[ExecuteInEditMode]
 public class AudioTester : MonoBehaviour
 {
     public List<string> sfxNames;
