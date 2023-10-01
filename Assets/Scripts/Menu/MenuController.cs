@@ -21,6 +21,7 @@ public class MenuController: MonoBehaviour {
             menuCamera.Priority = 1;
             menuUI.alpha = 0;
             enabled = false;
+            LevelMaker.shared.StartGameplay();
             Destroy(gameObject);
         }
     }

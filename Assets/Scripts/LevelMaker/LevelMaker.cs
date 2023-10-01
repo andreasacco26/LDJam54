@@ -65,9 +65,6 @@ public class LevelMaker: MonoBehaviour {
         BuildObjectsDestroyer();
         BuildPlayer();
         currentSlowmoTimer = slowmoTimer;
-        if (!restartWithMenu) {
-            StartGameplay();
-        }
     }
 
     private void Update() {
@@ -87,7 +84,7 @@ public class LevelMaker: MonoBehaviour {
     public void StartGameplay() {
         BuildMovingObjectsSpawner();
         var animations = DOTween.Sequence();
-        animations.AppendInterval(2f);
+        animations.AppendInterval(restartWithMenu ? 2f : 0.1f);
         animations.AppendCallback(() => {
             PlayerController.shared.controlsEnabled = true;
         });
