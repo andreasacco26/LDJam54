@@ -39,19 +39,20 @@ public class PlayerController: MonoBehaviour {
         } else {
             movement.z = 0;
         }
-
-        if (Input.GetKeyDown(KeyCode.Space)) {
-            if (LevelMaker.shared.IsInSlowmo()) {
-                LevelMaker.shared.StopSlowmo();
-                StopSlowmo();
-            } else {
-                LevelMaker.shared.StartSlowmo();
-                StartSlowmo();
-            }
-        }
+        CheckSlowmo();
         movement *= Time.deltaTime * speed;
         ClampMovement();
         transform.Translate(movement, Space.World);
+    }
+
+    void CheckSlowmo() {
+        if (Input.GetKeyDown(KeyCode.Space)) {
+            if (LevelMaker.shared.IsInSlowmo()) {
+                LevelMaker.shared.StopSlowmo();
+            } else {
+                LevelMaker.shared.StartSlowmo();
+            }
+        }
     }
 
     void ClampMovement() {
@@ -68,13 +69,13 @@ public class PlayerController: MonoBehaviour {
         }
     }
 
-    void StartSlowmo() {
+    public void StartSlowmo() {
         var duration = LevelMaker.stopSlowmoAnimationTime;
         transform.DOScaleX(slowmoScale, duration);
         DOTween.To(() => speed, x => speed = x, slowmoSpeed, duration);
     }
 
-    void StopSlowmo() {
+    public void StopSlowmo() {
         var duration = LevelMaker.stopSlowmoAnimationTime;
         transform.DOScaleX(1f, duration);
         DOTween.To(() => speed, x => speed = x, initialSpeed, duration);
