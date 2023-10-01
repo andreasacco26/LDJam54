@@ -1,5 +1,7 @@
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Subsystems;
+using UnityEngine.VFX;
 
 public class KnightBusEffects : MonoBehaviour
 {
@@ -20,6 +22,12 @@ public class KnightBusEffects : MonoBehaviour
 
     public AudioSource engineSource, brakeSource;
     public Sound engineSound, brakeSound;
+
+    [Header("Exhaust fire")]
+    [Tooltip("Reference to the exhaust fire VFX to spawn.")]
+    public ParticleSystem exhaustFireVfx;
+    [Tooltip("Reference to the exhaust location.")]
+    public Transform exhaust;
 
     public bool HasExploded { get; private set; }
 
@@ -53,26 +61,24 @@ public class KnightBusEffects : MonoBehaviour
         InitAudioData();
     }
 
-    private void UpdateAudio() {
+    private void Update() {
+        if (Input.GetKeyDown(KeyCode.X)) {
+            Explode();
+        }
+
         if (!engineSource.isPlaying && engineSource.isActiveAndEnabled) engineSource.Play();
         float speedDelta = Mathf.Clamp01(Mathf.Abs(PlayerController.shared.movement.z));
         engineSource.pitch = enginePitchOverSpeed.Evaluate(speedDelta);
 
         if (Input.GetKeyDown(KeyCode.UpArrow)) {
             AudioManager.Instance.PlaySfx("BangInstant");
-            AudioManager.Instance.PlaySfx("BangDelay");
+            ParticleSystem exhaustFire = Instantiate(exhaustFireVfx, exhaust.transform);
+            exhaustFire.Play();
+            Destroy(exhaustFire.gameObject, 0.5f);
         }
 
         float brakeDelta = Input.GetKeyDown(KeyCode.DownArrow) ? speedDelta : 0.0f;
         brakeSource.volume = Mathf.Clamp01(driftOverSpeed.Evaluate(brakeDelta));
-    }
-
-    private void Update() {
-        if (Input.GetKeyDown(KeyCode.X)) {
-            Explode();
-        }
-
-        UpdateAudio();
     }
 
     public void Explode() {
