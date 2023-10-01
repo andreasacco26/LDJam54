@@ -868,120 +868,45 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 1717038475653410953, guid: e67b55b4239c3a7428dbc2a9e728d26f,
-        type: 3}
-      propertyPath: m_colorMode
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1717038475653410953, guid: e67b55b4239c3a7428dbc2a9e728d26f,
-        type: 3}
-      propertyPath: m_fontColor.b
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 1717038475653410953, guid: e67b55b4239c3a7428dbc2a9e728d26f,
-        type: 3}
-      propertyPath: m_fontColor.g
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 1717038475653410953, guid: e67b55b4239c3a7428dbc2a9e728d26f,
-        type: 3}
-      propertyPath: m_fontColor.r
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 1717038475653410953, guid: e67b55b4239c3a7428dbc2a9e728d26f,
-        type: 3}
-      propertyPath: m_fontColor32.rgba
-      value: 4294967295
-      objectReference: {fileID: 0}
-    - target: {fileID: 1717038475653410953, guid: e67b55b4239c3a7428dbc2a9e728d26f,
-        type: 3}
-      propertyPath: m_overrideHtmlColors
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1717038475653410953, guid: e67b55b4239c3a7428dbc2a9e728d26f,
-        type: 3}
-      propertyPath: m_enableVertexGradient
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 1717038475653410953, guid: e67b55b4239c3a7428dbc2a9e728d26f,
-        type: 3}
-      propertyPath: m_fontColorGradient.topLeft.b
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 1717038475653410953, guid: e67b55b4239c3a7428dbc2a9e728d26f,
-        type: 3}
-      propertyPath: m_fontColorGradient.topLeft.g
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 1717038475653410953, guid: e67b55b4239c3a7428dbc2a9e728d26f,
-        type: 3}
-      propertyPath: m_fontColorGradient.topLeft.r
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 1717038475653410953, guid: e67b55b4239c3a7428dbc2a9e728d26f,
-        type: 3}
-      propertyPath: m_fontColorGradient.topRight.b
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 1717038475653410953, guid: e67b55b4239c3a7428dbc2a9e728d26f,
-        type: 3}
-      propertyPath: m_fontColorGradient.topRight.g
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 1717038475653410953, guid: e67b55b4239c3a7428dbc2a9e728d26f,
-        type: 3}
-      propertyPath: m_fontColorGradient.topRight.r
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 1717038475653410953, guid: e67b55b4239c3a7428dbc2a9e728d26f,
-        type: 3}
-      propertyPath: m_fontColorGradient.bottomLeft.b
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 1717038475653410953, guid: e67b55b4239c3a7428dbc2a9e728d26f,
-        type: 3}
-      propertyPath: m_fontColorGradient.bottomLeft.g
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 1717038475653410953, guid: e67b55b4239c3a7428dbc2a9e728d26f,
-        type: 3}
-      propertyPath: m_fontColorGradient.bottomLeft.r
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 1717038475653410953, guid: e67b55b4239c3a7428dbc2a9e728d26f,
-        type: 3}
-      propertyPath: m_fontColorGradient.bottomRight.b
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 1717038475653410953, guid: e67b55b4239c3a7428dbc2a9e728d26f,
-        type: 3}
-      propertyPath: m_fontColorGradient.bottomRight.g
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 1717038475653410953, guid: e67b55b4239c3a7428dbc2a9e728d26f,
-        type: 3}
-      propertyPath: m_fontColorGradient.bottomRight.r
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 2486830329792206523, guid: e67b55b4239c3a7428dbc2a9e728d26f,
-        type: 3}
-      propertyPath: m_RenderMode
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 2486830329792206523, guid: e67b55b4239c3a7428dbc2a9e728d26f,
-        type: 3}
-      propertyPath: m_VertexColorAlwaysGammaSpace
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 4817317322883099097, guid: e67b55b4239c3a7428dbc2a9e728d26f,
-        type: 3}
-      propertyPath: m_PresetInfoIsWorld
-      value: 0
-      objectReference: {fileID: 0}
     - target: {fileID: 7007581378069013516, guid: e67b55b4239c3a7428dbc2a9e728d26f,
         type: 3}
       propertyPath: m_Name
       value: Canvas
+      objectReference: {fileID: 0}
+    - target: {fileID: 7422104716359800974, guid: e67b55b4239c3a7428dbc2a9e728d26f,
+        type: 3}
+      propertyPath: gameOverInsults.Array.size
+      value: 6
+      objectReference: {fileID: 0}
+    - target: {fileID: 7422104716359800974, guid: e67b55b4239c3a7428dbc2a9e728d26f,
+        type: 3}
+      propertyPath: gameOverInsults.Array.data[0]
+      value: Oh, my god...
+      objectReference: {fileID: 0}
+    - target: {fileID: 7422104716359800974, guid: e67b55b4239c3a7428dbc2a9e728d26f,
+        type: 3}
+      propertyPath: gameOverInsults.Array.data[1]
+      value: Brilliant!
+      objectReference: {fileID: 0}
+    - target: {fileID: 7422104716359800974, guid: e67b55b4239c3a7428dbc2a9e728d26f,
+        type: 3}
+      propertyPath: gameOverInsults.Array.data[2]
+      value: I had a dog that used to drove like that...
+      objectReference: {fileID: 0}
+    - target: {fileID: 7422104716359800974, guid: e67b55b4239c3a7428dbc2a9e728d26f,
+        type: 3}
+      propertyPath: gameOverInsults.Array.data[3]
+      value: Why the long face?
+      objectReference: {fileID: 0}
+    - target: {fileID: 7422104716359800974, guid: e67b55b4239c3a7428dbc2a9e728d26f,
+        type: 3}
+      propertyPath: gameOverInsults.Array.data[4]
+      value: Nice try!
+      objectReference: {fileID: 0}
+    - target: {fileID: 7422104716359800974, guid: e67b55b4239c3a7428dbc2a9e728d26f,
+        type: 3}
+      propertyPath: gameOverInsults.Array.data[5]
+      value: Hehehe see ya
       objectReference: {fileID: 0}
     - target: {fileID: 8142382210627691084, guid: e67b55b4239c3a7428dbc2a9e728d26f,
         type: 3}
@@ -1026,21 +951,6 @@ PrefabInstance:
     - target: {fileID: 8142382210627691084, guid: e67b55b4239c3a7428dbc2a9e728d26f,
         type: 3}
       propertyPath: m_SizeDelta.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 8142382210627691084, guid: e67b55b4239c3a7428dbc2a9e728d26f,
-        type: 3}
-      propertyPath: m_LocalScale.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 8142382210627691084, guid: e67b55b4239c3a7428dbc2a9e728d26f,
-        type: 3}
-      propertyPath: m_LocalScale.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 8142382210627691084, guid: e67b55b4239c3a7428dbc2a9e728d26f,
-        type: 3}
-      propertyPath: m_LocalScale.z
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8142382210627691084, guid: e67b55b4239c3a7428dbc2a9e728d26f,
