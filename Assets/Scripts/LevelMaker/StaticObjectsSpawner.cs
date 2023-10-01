@@ -9,24 +9,34 @@ public class StaticObjectsSpawner: MonoBehaviour {
     public bool isLeft = false;
     public float offset = 0f;
     public GameObject[] itemsToSpawn;
+    public float destroyerZ = -35;
 
-    private Vector3 lastExtents;
+    private Vector3 lastExtents = Vector3.zero;
     private int layer;
     private Transform lastSpawned;
 
     void Start() {
         layer = LayerMask.NameToLayer("Obstacle");
-        Spawn();
+        SpawnFirst();
     }
 
     void Update() {
         if (!lastSpawned ||
             lastSpawned.position.z + lastExtents.x < transform.position.z) {
-            Spawn();
+            Spawn(Vector3.zero, false);
         }
     }
 
-    private void Spawn() {
+    private void SpawnFirst() {
+        do {
+            var position = lastSpawned ? lastSpawned.position : new Vector3(transform.position.x, transform.position.y, destroyerZ);
+            position.x = transform.position.x;
+            position.z += lastExtents.x * 2;
+            Spawn(position, true);
+        } while (lastSpawned.position.z + lastExtents.x < transform.position.z);
+    }
+
+    private void Spawn(Vector3 customPosition, bool useCustomPosition = false) {
         var item = itemsToSpawn[Random.Range(0, itemsToSpawn.Length - 1)];
         var instantiatedItem = Instantiate(item, transform.position, Quaternion.identity);
         instantiatedItem.layer = layer;
@@ -36,8 +46,12 @@ public class StaticObjectsSpawner: MonoBehaviour {
         extents.x += offset;
         boxCollider.center = new(extents.x * (isLeft ? -1.1f : 1.1f), 0, 0);
         var position = transform.position;
+        if (!useCustomPosition) {
+            position.z += extents.z;
+        } else {
+            position = customPosition;
+        }
         position.x += extents.x * (isLeft ? -1 : 1);
-        position.z += extents.z;
         instantiatedItem.transform.position = position;
         instantiatedItem.transform.localEulerAngles = objectsRotation;
         LevelMaker.shared.AddObjectToMove(instantiatedItem.transform);

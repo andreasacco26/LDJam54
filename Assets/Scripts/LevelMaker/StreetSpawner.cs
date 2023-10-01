@@ -9,8 +9,7 @@ public class StreetSpawner: MonoBehaviour {
     public GameObject road;
     public GameObject sidewalk;
     public GameObject roadStripes;
-    [HideInInspector]
-    public float initialSpeed = 5;
+    public float destroyerZ = -35;
 
     private GameObject prototype;
     private Transform lastSpawned;
@@ -19,7 +18,7 @@ public class StreetSpawner: MonoBehaviour {
 
     void Start() {
         layer = LayerMask.NameToLayer("Obstacle");
-        Spawn();
+        SpawnFirst();
     }
 
     void Update() {
@@ -29,10 +28,19 @@ public class StreetSpawner: MonoBehaviour {
         }
     }
 
-    private void Spawn() {
-        if (!prototype) {
-            SetUpPrototype();
+    private void SpawnFirst() {
+        SetUpPrototype();
+        for (int i = (int)(Mathf.Abs(transform.position.z - destroyerZ) / (streetExtent * 2)); i >= 0; i--) {
+            var position = transform.position;
+            position.z += streetExtent;
+            position.z -= streetExtent * 2 * i;
+            var instantiatedItem = Instantiate(prototype, position, Quaternion.identity);
+            LevelMaker.shared.AddObjectToMove(instantiatedItem.transform);
+            lastSpawned = instantiatedItem.transform;
         }
+    }
+
+    private void Spawn() {
         var position = transform.position;
         position.z += streetExtent;
         var instantiatedItem = Instantiate(prototype, position, Quaternion.identity);

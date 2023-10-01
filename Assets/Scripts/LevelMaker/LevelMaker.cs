@@ -90,6 +90,7 @@ public class LevelMaker: MonoBehaviour {
         _streetSpawner = instance.GetComponent<StreetSpawner>();
         _streetSpawner.numberOfLanes = numberOfLanes;
         _streetSpawner.streetWidth = streetWidth;
+        _streetSpawner.destroyerZ = objectsDestroyerPosition.z;
     }
 
     public void StartSlowmo() {
