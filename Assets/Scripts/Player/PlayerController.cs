@@ -90,4 +90,9 @@ public class PlayerController: MonoBehaviour {
         slowmoImage.fillAmount = progress;
         slowmoImage.enabled = progress < 0.999f;
     }
+
+    public void OnCarCollisionEnter(Collision collision) {
+        //LevelMaker.shared.OnVehicleAccident();
+        GetComponent<KnightBusEffects>().Explode();
+    }
 }

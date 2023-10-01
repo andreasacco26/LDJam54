@@ -174,6 +174,17 @@ public class LevelMaker: MonoBehaviour {
         obj.parent = transform;
     }
 
+    public void OnVehicleAccident() {
+        if (slowmoCooldownTimerAnimation != null) {
+            slowmoCooldownTimerAnimation.Complete();
+        }
+        if (slowmoTimerAnimation != null) {
+            slowmoTimerAnimation.Complete();
+        }
+        currentSpeed = 0;
+        _spawner.speed = 0;
+    }
+
     private void MoveItems() {
         foreach (Transform t in itemsToMove) {
             if (t == null) continue;

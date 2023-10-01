@@ -32,7 +32,9 @@ public class MovingObjectsSpawner: MonoBehaviour {
     }
 
     void Update() {
-        MoveItems();
+        if (speed != 0) {
+            MoveItems();
+        }
         currentSpawnTime -= Time.deltaTime * (speed / initialSpeed);
         if (currentSpawnTime <= 0) {
             Spawn();
@@ -59,8 +61,16 @@ public class MovingObjectsSpawner: MonoBehaviour {
             var itemPosition = PositionFromIndex(position);
             var item = itemsToSpawn[Random.Range(0, itemsToSpawn.Length - 1)];
             var instantiatedItem = Instantiate(item, itemPosition, Quaternion.identity);
+            instantiatedItem.name = "Car";
             instantiatedItem.layer = layer;
-            instantiatedItem.AddComponent<BoxCollider>();
+            var collider = instantiatedItem.AddComponent<BoxCollider>();
+            var center = collider.center;
+            center.z -= collider.size.z * 0.05f;
+            collider.center = center;
+            var size = collider.size;
+            size.x *= 0.78f;
+            size.z *= 0.9f;
+            collider.size = size;
             var mover = instantiatedItem.AddComponent<VehicleMover>();
             itemsToMove.Add(mover);
             mover.transform.parent = LevelMaker.shared.transform;
