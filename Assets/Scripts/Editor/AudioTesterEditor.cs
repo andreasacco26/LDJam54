@@ -10,7 +10,7 @@ public class AudioTesterEditor : Editor
         if (list.Count == 1) {
             return list[0];
         }
-        return list[Random.Range(0, list.Count - 1)];
+        return list[Random.Range(0, list.Count)];
     }
 
     public override void OnInspectorGUI()
