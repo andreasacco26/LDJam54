@@ -4,17 +4,27 @@ using TMPro;
 using DG.Tweening;
 using System.Collections.Generic;
 
-public class ScoreManager : MonoBehaviour
-{
+public class ScoreManager: MonoBehaviour {
     [Header("Score")]
     public TMP_Text scoreText;
     public float scoreMultiplier = 5.0f;
 
     [Header("Game Over")]
     public TMP_Text gameOverText;
+    public CanvasGroup gameOverCanvas;
     public List<string> gameOverInsults;
 
     public bool IsRecording { get; private set; }
+
+    public static ScoreManager shared { get; private set; }
+
+    void Awake() {
+        if (shared != null && shared != this) {
+            Destroy(this);
+        } else {
+            shared = this;
+        }
+    }
 
     public void StartRecording() {
         IsRecording = true;
@@ -39,15 +49,10 @@ public class ScoreManager : MonoBehaviour
     private float innerScore10000 = 0.0f;
 
     void Start() {
-        gameOverText.gameObject.SetActive(false);
         IsRecording = false;
     }
 
-    void Update()
-    {
-        if (Input.GetKeyDown(KeyCode.T)) {
-            StartRecording();
-        }
+    void Update() {
         if (IsRecording) {
             score += Time.deltaTime * scoreMultiplier;
             innerScore100 += Time.deltaTime * scoreMultiplier;
@@ -63,28 +68,21 @@ public class ScoreManager : MonoBehaviour
             } else if (innerScore1000 > 1000) {
                 innerScore1000 = 0.0f;
                 innerScore100 = 0.0f;
-                 GetSequence(orangeColor, 1.4f, 0.3f);
+                GetSequence(orangeColor, 1.4f, 0.3f);
             } else if (innerScore100 > 100) {
                 innerScore100 = 0.0f;
                 GetSequence(yellowColor, 1.2f, 0.3f);
             }
         }
-
-        if (Input.GetKeyDown(KeyCode.R)) {
-            StopRecording();
-            GameOver();
-        }
-
-        if (Input.GetKeyDown(KeyCode.Y)) { ResetGame(); }
     }
 
     Sequence GetSequence(Color color, float maxScale, float duration) {
         Sequence sequence = DOTween.Sequence();
-            sequence.Append(scoreText.transform.DOScale(maxScale, duration));
-            sequence.Append(scoreText.transform.DOScale(1, duration));
-            sequence.Insert(0, DOTween.Sequence()
-                .Append(scoreText.DOColor(color, duration))
-                .Append(scoreText.DOColor(Color.white, duration)));
+        sequence.Append(scoreText.transform.DOScale(maxScale, duration));
+        sequence.Append(scoreText.transform.DOScale(1, duration));
+        sequence.Insert(0, DOTween.Sequence()
+            .Append(scoreText.DOColor(color, duration))
+            .Append(scoreText.DOColor(Color.white, duration)));
         return sequence;
     }
 
@@ -95,10 +93,10 @@ public class ScoreManager : MonoBehaviour
         return "Game Over";
     }
 
-    void GameOver() {
-        gameOverText.gameObject.SetActive(true);
+    public void GameOver() {
+        StopRecording();
         gameOverText.SetText(GetRandomInsult());
-        gameOverText.DOFade(1f, 1f);
+        gameOverCanvas.DOFade(1f, 1f);
     }
 
     void ResetGame() {

@@ -1,8 +1,8 @@
 using System.Collections.Generic;
 using UnityEngine;
+using DG.Tweening;
 
-public class AudioManager : MonoBehaviour
-{
+public class AudioManager: MonoBehaviour {
     public List<Sound> musicSounds, ambienceSounds, sfxSounds;
 
     public AudioSource musicSource, ambienceSource, sfxSource;
@@ -13,7 +13,6 @@ public class AudioManager : MonoBehaviour
         if (Instance != null && Instance != this) {
             Destroy(this);
         } else {
-            Debug.Log("AudioManager Singleton created");
             Instance = this;
         }
     }
@@ -32,10 +31,16 @@ public class AudioManager : MonoBehaviour
     private void PlayRandom(List<Sound> sounds, AudioSource source) {
         if (sounds.Count <= 0) return;
         source.clip = sounds[Random.Range(0, sounds.Count)].clip;
-        source.loop = false;
+        source.loop = true;
         source.Play();
     }
 
+    private void ChangePitch(float pitch, AudioSource source) {
+        source.DOComplete();
+        source.DOPitch(pitch, 1.0f);
+    }
+
+    public void ChangePitch(float pitch) => ChangePitch(pitch, musicSource);
     public void PlayRandomMusic() => PlayRandom(musicSounds, musicSource);
     public void PlayMusic(string musicName) => Play(musicSounds, musicSource, musicName, true);
     public void PlayAmbience(string ambienceName) => Play(ambienceSounds, ambienceSource, ambienceName, true);

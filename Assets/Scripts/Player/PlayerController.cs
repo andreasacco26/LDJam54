@@ -99,7 +99,7 @@ public class PlayerController: MonoBehaviour {
     }
 
     public void OnCarCollisionEnter(Collision collision) {
-        //LevelMaker.shared.OnVehicleAccident();
+        LevelMaker.shared.OnGameOver();
         GetComponent<KnightBusEffects>().Explode();
     }
 }

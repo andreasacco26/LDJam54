@@ -1,6 +1,7 @@
 using UnityEngine;
 using DG.Tweening;
 using System.Collections.Generic;
+using UnityEngine.SceneManagement;
 
 public class LevelMaker: MonoBehaviour {
 
@@ -43,6 +44,9 @@ public class LevelMaker: MonoBehaviour {
     private Tweener slowmoTimerAnimation;
     private Tweener slowmoCooldownTimerAnimation;
 
+    private bool listenForGameOver;
+    public static bool restartWithMenu = true;
+
     public static LevelMaker shared { get; private set; }
 
     void Awake() {
@@ -61,10 +65,19 @@ public class LevelMaker: MonoBehaviour {
         BuildObjectsDestroyer();
         BuildPlayer();
         currentSlowmoTimer = slowmoTimer;
+        if (!restartWithMenu) {
+            StartGameplay();
+        }
     }
 
     private void Update() {
         MoveItems();
+        if (listenForGameOver) {
+            if (Input.anyKeyDown) {
+                restartWithMenu = false;
+                SceneManager.LoadScene(SceneManager.GetActiveScene().name);
+            }
+        }
     }
 
     private void FixedUpdate() {
@@ -79,6 +92,8 @@ public class LevelMaker: MonoBehaviour {
             PlayerController.shared.controlsEnabled = true;
         });
         animations.Play();
+        ScoreManager.shared.StartRecording();
+        AudioManager.Instance.PlayRandomMusic();
     }
 
     void BuildMovingObjectsSpawner() {
@@ -150,6 +165,7 @@ public class LevelMaker: MonoBehaviour {
             .OnComplete(() => StopSlowmo())
             .OnUpdate(() => PlayerController.shared.SetSlowmoProgress(currentSlowmoTimer / slowmoTimer)); ;
         PlayerController.shared.StartSlowmo();
+        AudioManager.Instance.ChangePitch(0.5f);
     }
 
     public void StopSlowmo() {
@@ -179,6 +195,7 @@ public class LevelMaker: MonoBehaviour {
             .SetEase(Ease.Linear)
             .OnUpdate(() => PlayerController.shared.SetSlowmoProgress(currentSlowmoTimer / slowmoTimer));
         PlayerController.shared.StopSlowmo();
+        AudioManager.Instance.ChangePitch(1.0f);
     }
 
     public bool CanStartSlowmo() {
@@ -194,15 +211,15 @@ public class LevelMaker: MonoBehaviour {
         obj.parent = transform;
     }
 
-    public void OnVehicleAccident() {
-        if (slowmoCooldownTimerAnimation != null) {
-            slowmoCooldownTimerAnimation.Complete();
-        }
-        if (slowmoTimerAnimation != null) {
-            slowmoTimerAnimation.Complete();
-        }
-        currentSpeed = 0;
-        _spawner.speed = 0;
+    public void OnGameOver() {
+        ScoreManager.shared.GameOver();
+        var animations = DOTween.Sequence();
+        animations.AppendInterval(2f);
+        animations.AppendCallback(() => {
+            listenForGameOver = true;
+        });
+        animations.Play();
+
     }
 
     private void MoveItems() {
