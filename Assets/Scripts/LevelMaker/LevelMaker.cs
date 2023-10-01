@@ -1,5 +1,6 @@
 using UnityEngine;
 using DG.Tweening;
+using System.Collections.Generic;
 
 public class LevelMaker: MonoBehaviour {
 
@@ -8,12 +9,15 @@ public class LevelMaker: MonoBehaviour {
     public const float slowmoAnimationTime = 1.5f;
     public const float stopSlowmoAnimationTime = 0.5f;
 
+    public float currentSpeed = 5f;
     public float worldSpeed = 5f;
     public float worldSlowmoSpeed = 5f;
+    public int streetWidth = 17;
+    public int numberOfLanes = 4;
 
     public Vector3 movingObjectsSpawnerPosition;
     public GameObject movingObjectsSpawner;
-    private MovingObjectsSpawner spawner;
+    private MovingObjectsSpawner _spawner;
 
     public Vector3 objectsDestroyerPosition;
     public GameObject objectsDestroyer;
@@ -23,76 +27,112 @@ public class LevelMaker: MonoBehaviour {
 
     public Vector3 leftBuilingsSpawnerPosition;
     public GameObject leftBuilingsSpawner;
-    private StaticObjectsSpawner _leftBuildingsSpawner;
 
     public Vector3 rightBuilingsSpawnerPosition;
     public GameObject rightBuilingsSpawner;
-    private StaticObjectsSpawner _rightBuildingsSpawner;
+
+    public Vector3 streetSpawnerPosition;
+    public GameObject streetSpawner;
+    private StreetSpawner _streetSpawner;
+    private readonly List<Transform> itemsToMove = new();
 
     void Start() {
         shared = this;
+        currentSpeed = worldSpeed;
+        BuildStreetSpawner();
         BuildMovingObjectsSpawner();
         BuildBuildingsSpawners();
         BuildObjectsDestroyer();
         BuildPlayer();
     }
 
+    private void Update() {
+        MoveItems();
+    }
+
+    private void FixedUpdate() {
+        CleanItemsToMove();
+    }
+
     void BuildMovingObjectsSpawner() {
         var instance = Instantiate(movingObjectsSpawner, movingObjectsSpawnerPosition, Quaternion.identity);
-        spawner = instance.GetComponent<MovingObjectsSpawner>();
-        spawner.speed = worldSpeed;
-        spawner.slowmoSpeed = worldSlowmoSpeed;
+        CleanName(instance);
+        _spawner = instance.GetComponent<MovingObjectsSpawner>();
+        _spawner.speed = worldSpeed;
+        _spawner.slowmoSpeed = worldSlowmoSpeed;
+        _spawner.numberOfLanes = numberOfLanes;
+        _spawner.streetWidth = streetWidth;
     }
 
     void BuildObjectsDestroyer() {
-        Instantiate(objectsDestroyer, objectsDestroyerPosition, Quaternion.identity);
+        var instance = Instantiate(objectsDestroyer, objectsDestroyerPosition, Quaternion.identity);
+        CleanName(instance);
     }
 
     void BuildPlayer() {
         var playerObject = Instantiate(player, playerPosition, Quaternion.identity);
+        CleanName(playerObject);
         var playerController = playerObject.GetComponent<PlayerController>();
-        playerController.numberOfLanes = spawner.numberOfLanes;
-        playerController.streetWidth = spawner.streetWidth;
+        playerController.numberOfLanes = numberOfLanes;
+        playerController.streetWidth = streetWidth;
     }
 
     void BuildBuildingsSpawners() {
         var left = Instantiate(leftBuilingsSpawner, leftBuilingsSpawnerPosition, Quaternion.identity);
-        _leftBuildingsSpawner = left.GetComponent<StaticObjectsSpawner>();
-        _leftBuildingsSpawner.speed = worldSpeed;
-        _leftBuildingsSpawner.slowmoSpeed = worldSlowmoSpeed;
+        CleanName(left);
         var right = Instantiate(rightBuilingsSpawner, rightBuilingsSpawnerPosition, Quaternion.identity);
-        _rightBuildingsSpawner = right.GetComponent<StaticObjectsSpawner>();
-        _rightBuildingsSpawner.speed = worldSpeed;
-        _rightBuildingsSpawner.slowmoSpeed = worldSlowmoSpeed;
+        CleanName(right);
+    }
+
+    void BuildStreetSpawner() {
+        var instance = Instantiate(streetSpawner, streetSpawnerPosition, Quaternion.identity);
+        CleanName(instance);
+        _streetSpawner = instance.GetComponent<StreetSpawner>();
+        _streetSpawner.numberOfLanes = numberOfLanes;
+        _streetSpawner.streetWidth = streetWidth;
     }
 
     public void StartSlowmo() {
         this.DOComplete();
-        DOTween.To(() => spawner.speed,
-            x => spawner.speed = x,
-            spawner.slowmoSpeed, slowmoAnimationTime);
-        DOTween.To(() => _leftBuildingsSpawner.speed,
-            x => _leftBuildingsSpawner.speed = x,
-            _leftBuildingsSpawner.slowmoSpeed, slowmoAnimationTime);
-        DOTween.To(() => _rightBuildingsSpawner.speed,
-            x => _rightBuildingsSpawner.speed = x,
-            _rightBuildingsSpawner.slowmoSpeed, slowmoAnimationTime);
+        DOTween.To(() => currentSpeed,
+            x => currentSpeed = x,
+            worldSlowmoSpeed, slowmoAnimationTime);
+        DOTween.To(() => _spawner.speed,
+            x => _spawner.speed = x,
+            _spawner.slowmoSpeed, slowmoAnimationTime);
     }
 
     public void StopSlowmo() {
         this.DOComplete();
-        DOTween.To(() => spawner.speed,
-                    x => spawner.speed = x,
-                    spawner.initialSpeed, stopSlowmoAnimationTime);
-        DOTween.To(() => _leftBuildingsSpawner.speed,
-                    x => _leftBuildingsSpawner.speed = x,
-                    _leftBuildingsSpawner.initialSpeed, stopSlowmoAnimationTime);
-        DOTween.To(() => _rightBuildingsSpawner.speed,
-                    x => _rightBuildingsSpawner.speed = x,
-                    _rightBuildingsSpawner.initialSpeed, stopSlowmoAnimationTime);
+        DOTween.To(() => currentSpeed,
+            x => currentSpeed = x,
+            worldSpeed, stopSlowmoAnimationTime);
+        DOTween.To(() => _spawner.speed,
+            x => _spawner.speed = x,
+            _spawner.initialSpeed, stopSlowmoAnimationTime);
     }
 
     public bool IsInSlowmo() {
-        return spawner.speed != spawner.initialSpeed;
+        return _spawner.speed != _spawner.initialSpeed;
+    }
+
+    public void AddObjectToMove(Transform obj) {
+        itemsToMove.Add(obj);
+        obj.parent = transform;
+    }
+
+    private void MoveItems() {
+        foreach (Transform t in itemsToMove) {
+            if (t == null) continue;
+            t.Translate(0, 0, -currentSpeed * Time.deltaTime, Space.World);
+        }
+    }
+
+    private void CleanItemsToMove() {
+        itemsToMove.Remove(null);
+    }
+
+    private void CleanName(GameObject obj) {
+        obj.name = obj.name.Replace("(Clone)", "");
     }
 }

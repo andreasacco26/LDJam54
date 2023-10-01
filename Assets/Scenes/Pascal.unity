@@ -123,58 +123,6 @@ NavMeshSettings:
     debug:
       m_Flags: 0
   m_NavMeshData: {fileID: 0}
---- !u!1 &528208014
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 528208016}
-  - component: {fileID: 528208015}
-  m_Layer: 0
-  m_Name: StreetSpawner
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!114 &528208015
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 528208014}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 56747df2c23e14df592c1e8220d81ec6, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  streetWidth: 17
-  numberOfLanes: 4
-  speed: 5
-  slowmoSpeed: 1
-  road: {fileID: 0}
-  sidewalk: {fileID: 0}
-  roadStripes: {fileID: 0}
-  initialSpeed: 5
---- !u!4 &528208016
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 528208014}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -1.4330504, y: -11.146362, z: -22.511433}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 0}
-  m_RootOrder: 4
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &755202525
 GameObject:
   m_ObjectHideFlags: 0
@@ -392,6 +340,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   worldSpeed: 19
   worldSlowmoSpeed: 4
+  streetWidth: 17
+  numberOfLanes: 4
   movingObjectsSpawnerPosition: {x: 0, y: 0, z: 35}
   movingObjectsSpawner: {fileID: 9035688414437555553, guid: 525e0058ebada4abe9b0ab94aba4437f,
     type: 3}
@@ -405,6 +355,9 @@ MonoBehaviour:
     type: 3}
   rightBuilingsSpawnerPosition: {x: 13, y: 0, z: 35}
   rightBuilingsSpawner: {fileID: 536139977302355302, guid: 3a5a17c6919ba47929dab73ddff4d9da,
+    type: 3}
+  streetSpawnerPosition: {x: 0, y: 0, z: 35}
+  streetSpawner: {fileID: 1689647993254193179, guid: da86fb8cf1dc0489c971fe7743f9bc87,
     type: 3}
 --- !u!4 &1905731458
 Transform:
@@ -430,7 +383,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 2013410475}
-  - component: {fileID: 2013410474}
   m_Layer: 0
   m_Name: StaticLightingSky
   m_TagString: Untagged
@@ -438,18 +390,6 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!114 &2013410474
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2013410473}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 441482e8936e35048a1dffac814e3ef8, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!4 &2013410475
 Transform:
   m_ObjectHideFlags: 1

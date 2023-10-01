@@ -44,17 +44,18 @@ public class MovingObjectsSpawner: MonoBehaviour {
         }
 
         foreach (int position in availablePositions) {
-            var itemPosition = positionFromIndex(position);
+            var itemPosition = PositionFromIndex(position);
             var item = itemsToSpawn[Random.Range(0, itemsToSpawn.Length - 1)];
             var instantiatedItem = Instantiate(item, itemPosition, Quaternion.identity);
             instantiatedItem.layer = layer;
             instantiatedItem.AddComponent<BoxCollider>();
             var mover = instantiatedItem.AddComponent<VehicleMover>();
             itemsToMove.Add(mover);
+            mover.transform.parent = LevelMaker.shared.transform;
         }
     }
 
-    private Vector3 positionFromIndex(int index) {
+    private Vector3 PositionFromIndex(int index) {
         var position = transform.position;
         position.x = (streetWidth / numberOfLanes * index) - (position.x + streetWidth * 0.5f);
         position.x += streetWidth / numberOfLanes * 0.5f;
