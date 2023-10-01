@@ -11,6 +11,7 @@ public class MenuController: MonoBehaviour {
     public Vector3 lightInitialEulerAngles;
     public GameObject lights;
     public CanvasGroup menuUI;
+    public CanvasGroup tutorialUI;
     private Vector3 lightsGameplayEulerAngles;
 
     private void Start() {
@@ -32,6 +33,12 @@ public class MenuController: MonoBehaviour {
             LevelMaker.shared.StartGameplay();
             lights.transform.DORotate(lightsGameplayEulerAngles, 3f);
             GetComponent<AudioSource>().DOFade(0f, 1f).OnComplete(() => {
+                var animations = DOTween.Sequence();
+                animations.AppendInterval(2f);
+                animations.Append(tutorialUI.DOFade(1f, 0.5f));
+                animations.AppendInterval(3f);
+                animations.Append(tutorialUI.DOFade(0f, 0.5f));
+                animations.Play();
                 Destroy(gameObject);
             });
             enabled = false;

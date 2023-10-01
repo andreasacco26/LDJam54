@@ -39,7 +39,7 @@ public class ScoreManager: MonoBehaviour {
         innerScore10000 = 0.0f;
     }
 
-    private readonly string scoreTextFormat = "Score: {0:.00}";
+    private readonly string scoreTextFormat = "Score: {0:.}";
     private readonly Color yellowColor = new(249.0f / 255, 194.0f / 255, 43.0f / 255);
     private readonly Color orangeColor = new(251.0f / 255, 107.0f / 255, 29.0f / 255);
     private readonly Color redColor = new(234.0f / 255, 79.0f / 255, 54.0f / 255);

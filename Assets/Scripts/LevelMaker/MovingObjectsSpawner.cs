@@ -29,6 +29,7 @@ public class MovingObjectsSpawner: MonoBehaviour {
     void Start() {
         layer = LayerMask.NameToLayer("Obstacle");
         initialSpeed = speed;
+        currentSpawnTime = 5f; // Delay
     }
 
     void Update() {
