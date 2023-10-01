@@ -29,6 +29,14 @@ public class AudioManager : MonoBehaviour
         source.Play();
     }
 
+    private void PlayRandom(List<Sound> sounds, AudioSource source) {
+        if (sounds.Count <= 0) return;
+        source.clip = sounds[Random.Range(0, sounds.Count)].clip;
+        source.loop = false;
+        source.Play();
+    }
+
+    public void PlayRandomMusic() => PlayRandom(musicSounds, musicSource);
     public void PlayMusic(string musicName) => Play(musicSounds, musicSource, musicName, true);
     public void PlayAmbience(string ambienceName) => Play(ambienceSounds, ambienceSource, ambienceName, true);
     public void PlaySfx(string sfxName) {
