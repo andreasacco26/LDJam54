@@ -31,7 +31,7 @@ public class StaticObjectsSpawner: MonoBehaviour {
         do {
             var position = lastSpawned ? lastSpawned.position : new Vector3(transform.position.x, transform.position.y, destroyerZ);
             position.x = transform.position.x;
-            position.z += lastExtents.x * 2;
+            position.z += lastExtents.x;
             Spawn(position, true);
         } while (lastSpawned.position.z + lastExtents.x < transform.position.z);
     }
@@ -46,12 +46,11 @@ public class StaticObjectsSpawner: MonoBehaviour {
         extents.x += offset;
         boxCollider.center = new(extents.x * (isLeft ? -1.1f : 1.1f), 0, 0);
         var position = transform.position;
-        if (!useCustomPosition) {
-            position.z += extents.z;
-        } else {
+        if (useCustomPosition) {
             position = customPosition;
         }
-        position.x += extents.x * (isLeft ? -1 : 1);
+        position.z += extents.x;
+        position.x += extents.z * (isLeft ? -1 : 1);
         instantiatedItem.transform.position = position;
         instantiatedItem.transform.localEulerAngles = objectsRotation;
         LevelMaker.shared.AddObjectToMove(instantiatedItem.transform);

@@ -46,10 +46,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   streetWidth: 17
   numberOfLanes: 4
-  speed: 5
-  slowmoSpeed: 1
   streetMaterial: {fileID: 2100000, guid: 069de147d5a40443886acbb3ce63fe3d, type: 2}
   road: {fileID: 0}
-  sidewalk: {fileID: 804798845568933034, guid: 1718e2ba138a6494391222b70c97bac6, type: 3}
+  sidewalk: {fileID: 919132149155446097, guid: 04e4be77eff7e58438af43ada17bfee0, type: 3}
   roadStripes: {fileID: 0}
-  initialSpeed: 5
+  destroyerZ: -35
