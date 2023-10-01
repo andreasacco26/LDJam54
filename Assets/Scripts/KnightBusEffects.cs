@@ -60,15 +60,11 @@ public class KnightBusEffects: MonoBehaviour {
     }
 
     private void Update() {
-        if (Input.GetKeyDown(KeyCode.X)) {
-            Explode();
-        }
-
         if (!engineSource.isPlaying && engineSource.isActiveAndEnabled) engineSource.Play();
         float speedDelta = Mathf.Clamp01(Mathf.Abs(PlayerController.shared.movement.z));
         engineSource.pitch = enginePitchOverSpeed.Evaluate(speedDelta);
 
-        if (Input.GetKeyDown(KeyCode.UpArrow)) {
+        if (Input.GetKeyDown(KeyCode.UpArrow) && PlayerController.shared.controlsEnabled) {
             AudioManager.Instance.PlaySfx("BangInstant");
             ParticleSystem exhaustFire = Instantiate(exhaustFireVfx, exhaust.transform);
             exhaustFire.Play();

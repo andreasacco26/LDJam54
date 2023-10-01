@@ -4,8 +4,6 @@ using System.Collections.Generic;
 
 public class LevelMaker: MonoBehaviour {
 
-    public static LevelMaker shared;
-
     public const float slowmoAnimationTime = 1.5f;
     public const float stopSlowmoAnimationTime = 0.5f;
 
@@ -45,11 +43,20 @@ public class LevelMaker: MonoBehaviour {
     private Tweener slowmoTimerAnimation;
     private Tweener slowmoCooldownTimerAnimation;
 
+    public static LevelMaker shared { get; private set; }
+
+    void Awake() {
+        if (shared != null && shared != this) {
+            Destroy(this);
+        } else {
+            shared = this;
+        }
+    }
+
     void Start() {
         shared = this;
         currentSpeed = worldSpeed;
         BuildStreetSpawner();
-        BuildMovingObjectsSpawner();
         BuildBuildingsSpawners();
         BuildObjectsDestroyer();
         BuildPlayer();
@@ -64,7 +71,20 @@ public class LevelMaker: MonoBehaviour {
         CleanItemsToMove();
     }
 
+    public void StartGameplay() {
+        BuildMovingObjectsSpawner();
+        var animations = DOTween.Sequence();
+        animations.AppendInterval(2f);
+        animations.AppendCallback(() => {
+            PlayerController.shared.controlsEnabled = true;
+        });
+        animations.Play();
+    }
+
     void BuildMovingObjectsSpawner() {
+        if (_spawner != null) {
+            return;
+        }
         var instance = Instantiate(movingObjectsSpawner, movingObjectsSpawnerPosition, Quaternion.identity);
         CleanName(instance);
         _spawner = instance.GetComponent<MovingObjectsSpawner>();
