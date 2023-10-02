@@ -12,6 +12,7 @@ public class MenuController: MonoBehaviour {
     public GameObject lights;
     public CanvasGroup menuUI;
     public CanvasGroup tutorialUI;
+    public CanvasGroup settingsUI;
     private Vector3 lightsGameplayEulerAngles;
 
     private void Start() {
@@ -28,7 +29,11 @@ public class MenuController: MonoBehaviour {
 
     // Update is called once per frame
     void Update() {
-        if (LevelMaker.restartWithMenu && Input.anyKeyDown) {
+        if (LevelMaker.restartWithMenu &&
+            Input.anyKeyDown &&
+            !(Input.GetMouseButtonDown(0) ||
+            Input.GetMouseButtonDown(1) ||
+            Input.GetMouseButtonDown(2))) {
             menuCamera.Priority = 1;
             menuUI.DOFade(0, 0.5f).OnComplete(() => Destroy(menuUI.gameObject));
             LevelMaker.shared.StartGameplay();
@@ -44,5 +49,9 @@ public class MenuController: MonoBehaviour {
             });
             enabled = false;
         }
+    }
+
+    public void OnSettingsSelected() {
+        settingsUI.gameObject.SetActive(true);
     }
 }

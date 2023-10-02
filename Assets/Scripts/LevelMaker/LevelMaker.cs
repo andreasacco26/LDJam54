@@ -14,7 +14,7 @@ public class LevelMaker: MonoBehaviour {
     public float slowmoTimer = 4f;
     public float cooldownSlowmoTimer = 4f;
 
-    public int streetWidth = 17;
+    public float streetWidth = 17;
     public int numberOfLanes = 4;
 
     [HideInInspector]
@@ -30,10 +30,10 @@ public class LevelMaker: MonoBehaviour {
     public Vector3 playerPosition;
     public GameObject player;
 
-    public Vector3 leftBuilingsSpawnerPosition;
+    //public Vector3 leftBuilingsSpawnerPosition;
     public GameObject leftBuilingsSpawner;
 
-    public Vector3 rightBuilingsSpawnerPosition;
+    //public Vector3 rightBuilingsSpawnerPosition;
     public GameObject rightBuilingsSpawner;
 
     public Vector3 streetSpawnerPosition;
@@ -47,6 +47,8 @@ public class LevelMaker: MonoBehaviour {
     private bool listenForGameOver;
     public static bool restartWithMenu = true;
 
+    public static int level = 1;
+
     public static LevelMaker shared { get; private set; }
 
     void Awake() {
@@ -58,6 +60,13 @@ public class LevelMaker: MonoBehaviour {
     }
 
     void Start() {
+        if (level == 0) {
+            SetEasyLevel();
+        } else if (level == 1) {
+            SetMediumLevel();
+        } else if (level == 2) {
+            SetHardLevel();
+        }
         shared = this;
         currentSpeed = worldSpeed;
         BuildStreetSpawner();
@@ -120,9 +129,12 @@ public class LevelMaker: MonoBehaviour {
     }
 
     void BuildBuildingsSpawners() {
-        var left = Instantiate(leftBuilingsSpawner, leftBuilingsSpawnerPosition, Quaternion.identity);
+        var position = movingObjectsSpawnerPosition;
+        position.x = -streetWidth * 0.5f - 7f;
+        var left = Instantiate(leftBuilingsSpawner, position, Quaternion.identity);
         CleanName(left);
-        var right = Instantiate(rightBuilingsSpawner, rightBuilingsSpawnerPosition, Quaternion.identity);
+        position.x = streetWidth * 0.5f + 7f;
+        var right = Instantiate(rightBuilingsSpawner, position, Quaternion.identity);
         CleanName(right);
     }
 
@@ -232,5 +244,23 @@ public class LevelMaker: MonoBehaviour {
 
     private void CleanName(GameObject obj) {
         obj.name = obj.name.Replace("(Clone)", "");
+    }
+
+    public void SetEasyLevel() {
+        level = 0;
+        var width = 4.25f * 3f;
+        numberOfLanes = 3;
+        streetWidth = width;
+    }
+
+    public void SetMediumLevel() {
+        level = 1;
+    }
+
+    public void SetHardLevel() {
+        level = 2;
+        var width = 4.25f * 5f;
+        numberOfLanes = 5;
+        streetWidth = width;
     }
 }

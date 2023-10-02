@@ -50,7 +50,7 @@ public class StreetSpawner: MonoBehaviour {
     private void SetUpPrototype() {
         var sidewalkExtents = sidewalk.GetComponent<Renderer>().bounds.extents;
         prototype = new PlaneMaker {
-            width = streetWidth,
+            width = streetWidth * 2,
             length = sidewalkExtents.z * 2,
             material = streetMaterial
         }.GetPlane();
@@ -61,12 +61,12 @@ public class StreetSpawner: MonoBehaviour {
         prototype.layer = layer;
         var rightSidewalk = Instantiate(sidewalk);
         rightSidewalk.transform.parent = prototype.transform;
-        rightSidewalk.transform.localPosition = new Vector3(streetWidth * 0.5f, 0, 0);
+        rightSidewalk.transform.localPosition = new Vector3(streetWidth * 0.5f, 0.1f, 0);
         rightSidewalk.transform.localEulerAngles = new Vector3(0, 180, 0);
 
         var leftSidewalk = Instantiate(sidewalk);
         leftSidewalk.transform.parent = prototype.transform;
-        leftSidewalk.transform.localPosition = new Vector3(-streetWidth * 0.5f, 0, 0);
+        leftSidewalk.transform.localPosition = new Vector3(-streetWidth * 0.5f, 0.1f, 0);
         streetExtent = sidewalkExtents.z;
         prototype.transform.position = new Vector3(9999, 9999, 9999);
 
