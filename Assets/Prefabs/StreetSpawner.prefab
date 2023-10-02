@@ -51,4 +51,4 @@ MonoBehaviour:
     type: 3}
   roadStripes: {fileID: 9214126657986951493, guid: 17d9904ab0fa1bf43a81ff32b6fd8d8b,
     type: 3}
-  destroyerZ: -35
+  destroyerZ: -50

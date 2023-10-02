@@ -40,8 +40,8 @@ public class StreetSpawner: MonoBehaviour {
     }
 
     private void Spawn() {
-        var position = transform.position;
-        position.z += streetExtent - 0.1f;
+        var position = lastSpawned ? lastSpawned.position : transform.position;
+        position.z += streetExtent;
         var instantiatedItem = Instantiate(prototype, position, Quaternion.identity);
         LevelMaker.shared.AddObjectToMove(instantiatedItem.transform);
         lastSpawned = instantiatedItem.transform;

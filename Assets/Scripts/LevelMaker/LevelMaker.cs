@@ -86,10 +86,10 @@ public class LevelMaker: MonoBehaviour {
         var animations = DOTween.Sequence();
         animations.AppendInterval(restartWithMenu ? 2f : 0.1f);
         animations.AppendCallback(() => {
+            ScoreManager.shared.StartRecording();
             PlayerController.shared.controlsEnabled = true;
         });
         animations.Play();
-        ScoreManager.shared.StartRecording();
         AudioManager.Instance.PlayRandomMusic();
     }
 
